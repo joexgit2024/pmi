@@ -1,0 +1,261 @@
+================================================================================
+PMI SYDNEY CHAPTER - PMP PROFESSIONALS TO CHARITY PROJECTS MATCHING
+================================================================================
+
+EXECUTIVE SUMMARY:
+----------------------------------------
+• Total PMP Professionals: 20
+• Total Charity Projects: 10
+• Assignment Ratio: 2 PMPs per project
+• Matching Algorithm: Skills-based with experience weighting
+
+DETAILED MATCHING RESULTS:
+----------------------------------------
+
+PROJECT: Sir David Martin Foundation
+Initiative: Youth AOD Knowledge Hub
+Description: A comprehensive national online resource hub that connects young people experiencing alcohol and oth...
+Priority: High | Complexity: High
+Required Skills: Strategic Planning: 10, Volunteering for a Non-profit Organisation: 6, Project Management: 4
+
+ASSIGNED PMPs:
+  PMP 1: Jauhar Janjua
+    Experience: More than 8 Years
+    Match Score: 91.43%
+    Top Skills: Project Management: 5.0, Strategic Planning: 5.0, Business Analysis: 5.0
+    Overall Rating: 4.69/5
+
+  PMP 2: Mirna Alemadi
+    Experience: Less than a Year
+    Match Score: 22.04%
+    Top Skills: Project Management: 1.0, Strategic Planning: 1.0, Business Change Management: 1.0
+    Overall Rating: 1.0/5
+
+------------------------------------------------------------
+
+PROJECT: Property Industry Foundation
+Initiative: Events management
+Description: Strategies to promote sustainable fundraising in alignment with our overall strategic plan: Deliver,...
+Priority: High | Complexity: High
+Required Skills: Events Planning and Management: 10, Strategic Planning: 8, Business Analysis: 2
+
+ASSIGNED PMPs:
+  PMP 1: Abby Thakur Satyanarayan
+    Experience: More than 8 Years
+    Match Score: 89.73%
+    Top Skills: Project Management: 5.0, Strategic Planning: 5.0, Business Change Management: 5.0
+    Overall Rating: 4.31/5
+
+  PMP 2: Indra Halim
+    Experience: 4 - 8 Years
+    Match Score: 81.08%
+    Top Skills: Project Management: 5.0, Understanding of Agile Principles: 5.0, Plan and Manage Agile Projects: 5.0
+    Overall Rating: 4.23/5
+
+  PMP 1: Ryan Benedek
+    Experience: 4 - 8 Years
+    Match Score: 66.21%
+    Top Skills: Project Management: 4.0, Business Change Management: 4.0, Business Analysis: 4.0
+    Overall Rating: 3.0/5
+
+  PMP 2: Suresh Reddy
+    Experience: 4 - 8 Years
+    Match Score: 62.07%
+    Top Skills: Volunteering for a Non-profit Organisation: 4.0, Events Planning and Management: 4.0, Project Management: 3.0
+    Overall Rating: 2.54/5
+
+------------------------------------------------------------
+
+PROJECT: Drummoyne Community Centre Inc
+Initiative: 50th Anniversary of DCC
+Description: Project plan for anniversary. Includes various projects /activities within.
+Priority: High | Complexity: Medium
+Required Skills: Events Planning and Management: 10, Project Management: 4, Volunteering for a Non-profit Organisation: 4
+
+ASSIGNED PMPs:
+  PMP 1: Haryanni Masarip
+    Experience: More than 8 Years
+    Match Score: 88.48%
+    Top Skills: Project Management: 5.0, Events Planning and Management: 5.0, Portfolio Management: 4.0
+    Overall Rating: 2.46/5
+
+  PMP 2: Yanika  Okaeva 
+    Experience: 4 - 8 Years
+    Match Score: 84.85%
+    Top Skills: Project Management: 5.0, Strategic Planning: 5.0, Volunteering for a Non-profit Organisation: 5.0
+    Overall Rating: 3.08/5
+
+------------------------------------------------------------
+
+PROJECT: MTC Future Ready
+Initiative: Implementation of PMO
+Description: Guidance/advice on implementation of PMO
+Priority: Low | Complexity: Low
+Required Skills: Business Change Management: 9
+
+ASSIGNED PMPs:
+  PMP 1: Ibrahim  Dani 
+    Experience: More than 8 Years
+    Match Score: 87.5%
+    Top Skills: Project Management: 5.0, Strategic Planning: 5.0, Business Change Management: 5.0
+    Overall Rating: 3.77/5
+
+  PMP 2: Shannon Blades
+    Experience: More than 8 Years
+    Match Score: 87.5%
+    Top Skills: Project Management: 5.0, Business Change Management: 5.0, Strategic Planning: 4.0
+    Overall Rating: 3.38/5
+
+------------------------------------------------------------
+
+PROJECT: GFG Foundation
+Initiative: nan
+Description: nan
+Priority: Low | Complexity: Medium
+Required Skills: Volunteering for a Non-profit Organisation: 2
+
+ASSIGNED PMPs:
+  PMP 1: Maria Mainhardt
+    Experience: More than 8 Years
+    Match Score: 82.35%
+    Top Skills: Project Management: 5.0, Volunteering for a Non-profit Organisation: 5.0, Strategic Planning: 4.0
+    Overall Rating: 2.31/5
+
+  PMP 2: Frederick Xavier
+    Experience: More than 8 Years
+    Match Score: 72.94%
+    Top Skills: Project Management: 5.0, Portfolio Management: 5.0, Understanding of Agile Principles: 5.0
+    Overall Rating: 3.23/5
+
+------------------------------------------------------------
+
+PROJECT: Legacy Club Services
+Initiative: Business ERP
+Description: implementation of new accounting software 
+Priority: High | Complexity: High
+Required Skills: Business Analysis: 7, Strategic Planning: 4, Business Change Management: 4
+
+ASSIGNED PMPs:
+  PMP 1: Arvin Arikathota
+    Experience: More than 8 Years
+    Match Score: 82.11%
+    Top Skills: Project Management: 5.0, Understanding of Agile Principles: 5.0, Plan and Manage Agile Projects: 5.0
+    Overall Rating: 4.31/5
+
+  PMP 2: Laetitia Callegari 
+    Experience: More than 8 Years
+    Match Score: 81.58%
+    Top Skills: Project Management: 5.0, Business Analysis: 5.0, Business Change Management: 4.0
+    Overall Rating: 3.92/5
+
+------------------------------------------------------------
+
+PROJECT: Cleaning Accountability Framework (CAF)
+Initiative: Website overhaul
+Description: Our website needs to be overhauled/rebuilt
+Priority: Low | Complexity: Medium
+Required Skills: Strategic Planning: 2, Development of User Requirements: 2
+
+ASSIGNED PMPs:
+  PMP 1: Nadun Dhanushka
+    Experience: More than 8 Years
+    Match Score: 80.0%
+    Top Skills: Project Management: 5.0, Understanding of Agile Principles: 5.0, Plan and Manage Agile Projects: 5.0
+    Overall Rating: 3.69/5
+
+  PMP 2: Doris  Wang
+    Experience: More than 8 Years
+    Match Score: 75.79%
+    Top Skills: Business Analysis: 5.0, Development of User Requirements: 5.0, Project Management: 3.0
+    Overall Rating: 2.38/5
+
+------------------------------------------------------------
+
+PROJECT: Rev. Bill Crews Foundation
+Initiative: To Be Confirmed
+Description: We are yet to finalise the best initiative or project
+Priority: Low | Complexity: Medium
+Required Skills: Volunteering for a Non-profit Organisation: 2
+
+ASSIGNED PMPs:
+  PMP 1: Suresh  Reddy 
+    Experience: 4 - 8 Years
+    Match Score: 70.59%
+    Top Skills: Planning & Management of the Implementation of New Software Solutions: 5.0, Volunteering for a Non-profit Organisation: 5.0, Project Management: 4.0
+    Overall Rating: 3.0/5
+
+  PMP 2: Neha Purohit
+    Experience: 4 - 8 Years
+    Match Score: 68.24%
+    Top Skills: Business Change Management: 5.0, Plan and Manage Agile Projects: 5.0, Project Management: 4.0
+    Overall Rating: 3.46/5
+
+------------------------------------------------------------
+
+PROJECT: Total Environment Centre
+Initiative: Strategic Focus & Capacity Alignment
+Description: TEC staff are stretched across too many roles and tasks, often working in the project rather than on...
+Priority: High | Complexity: Medium
+Required Skills: Strategic Planning: 10, Events Planning and Management: 4, Project Management: 2
+
+ASSIGNED PMPs:
+  PMP 1: Shreya  Shah
+    Experience: 4 - 8 Years
+    Match Score: 53.66%
+    Top Skills: Project Management: 3.0, Strategic Planning: 3.0, Understanding of Agile Principles: 3.0
+    Overall Rating: 1.85/5
+
+  PMP 2: Durita Sookharee
+    Experience: 1 - 3 Years
+    Match Score: 48.29%
+    Top Skills: Project Management: 3.0, Strategic Planning: 3.0, Volunteering for a Non-profit Organisation: 3.0
+    Overall Rating: 1.85/5
+
+------------------------------------------------------------
+
+MATCHING METHODOLOGY:
+----------------------------------------
+The matching algorithm considers:
+1. Skill Alignment (70%): PMP skill ratings (1-5) vs project requirements
+2. Experience Level (20%): Years as project professional
+3. Interest Alignment (10%): Stated areas of interest vs project type
+
+Key matching criteria:
+• Project requirements analyzed from descriptions and outcomes
+• Skills weighted based on keyword frequency and relevance
+• Experience bonus for senior professionals (8+ years)
+• Non-profit interest bonus for charity work
+• Optimal assignment ensuring 2 PMPs per project
+
+SELECTION REASONING:
+----------------------------------------
+Sir David Martin Foundation:
+  PMP 1 (Jauhar Janjua) selected because: Strong skills in Project Management (PMP: 5.0/5, Required: 4); Strategic Planning (PMP: 5.0/5, Required: 10). Extensive experience (8+ years).  | PMP 2 (Mirna Alemadi) selected because: 
+
+Property Industry Foundation:
+  PMP 1 (Abby Thakur Satyanarayan) selected because: Strong skills in Strategic Planning (PMP: 5.0/5, Required: 8); Business Analysis (PMP: 4.0/5, Required: 2). Extensive experience (8+ years).  | PMP 2 (Indra Halim) selected because: Strong skills in Strategic Planning (PMP: 4.0/5, Required: 8); Business Analysis (PMP: 4.0/5, Required: 2). 
+
+Drummoyne Community Centre Inc:
+  PMP 1 (Haryanni Masarip) selected because: Strong skills in Project Management (PMP: 5.0/5, Required: 4); Volunteering for a Non-profit Organisation (PMP: 4.0/5, Required: 4). Extensive experience (8+ years).  | PMP 2 (Yanika  Okaeva ) selected because: Strong skills in Project Management (PMP: 5.0/5, Required: 4); Volunteering for a Non-profit Organisation (PMP: 5.0/5, Required: 4). 
+
+MTC Future Ready:
+  PMP 1 (Ibrahim  Dani ) selected because: Strong skills in Business Change Management (PMP: 5.0/5, Required: 9). Extensive experience (8+ years).  | PMP 2 (Shannon Blades) selected because: Strong skills in Business Change Management (PMP: 5.0/5, Required: 9). Extensive experience (8+ years). 
+
+GFG Foundation:
+  PMP 1 (Maria Mainhardt) selected because: Strong skills in Volunteering for a Non-profit Organisation (PMP: 5.0/5, Required: 2). Extensive experience (8+ years).  | PMP 2 (Frederick Xavier) selected because: Extensive experience (8+ years). 
+
+Legacy Club Services:
+  PMP 1 (Arvin Arikathota) selected because: Strong skills in Strategic Planning (PMP: 4.0/5, Required: 4); Business Change Management (PMP: 4.0/5, Required: 4). Extensive experience (8+ years).  | PMP 2 (Laetitia Callegari ) selected because: Strong skills in Business Change Management (PMP: 4.0/5, Required: 4); Business Analysis (PMP: 5.0/5, Required: 7). Extensive experience (8+ years). 
+
+Cleaning Accountability Framework (CAF):
+  PMP 1 (Nadun Dhanushka) selected because: Strong skills in Strategic Planning (PMP: 4.0/5, Required: 2); Development of User Requirements (PMP: 4.0/5, Required: 2). Extensive experience (8+ years).  | PMP 2 (Doris  Wang) selected because: Strong skills in Development of User Requirements (PMP: 5.0/5, Required: 2). Extensive experience (8+ years). 
+
+Rev. Bill Crews Foundation:
+  PMP 1 (Suresh  Reddy ) selected because: Strong skills in Volunteering for a Non-profit Organisation (PMP: 5.0/5, Required: 2).  | PMP 2 (Neha Purohit) selected because: Strong skills in Volunteering for a Non-profit Organisation (PMP: 4.0/5, Required: 2). 
+
+Property Industry Foundation:
+  PMP 1 (Ryan Benedek) selected because: Strong skills in Business Analysis (PMP: 4.0/5, Required: 4); Volunteering for a Non-profit Organisation (PMP: 4.0/5, Required: 4).  | PMP 2 (Suresh Reddy) selected because: Strong skills in Volunteering for a Non-profit Organisation (PMP: 4.0/5, Required: 4). 
+
+Total Environment Centre:
+  PMP 1 (Shreya  Shah) selected because:  | PMP 2 (Durita Sookharee) selected because: 
+

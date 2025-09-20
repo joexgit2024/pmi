@@ -1,0 +1,50 @@
+Subject: PMI PMDoS 2025 - PMP Professional to Charity Project Matching Analysis
+
+Hi Princy,
+
+I hope this message finds you well. Please find attached the comprehensive matching analysis for the PMI Sydney Chapter Project Management Day of Service (PMDoS) 2025 initiative.
+
+**MATCHING OVERVIEW:**
+I have completed a detailed analysis to optimally match our 20 registered PMP professionals with the 10 participating charity organizations. The matching algorithm was designed to ensure the best possible skill alignment while considering experience levels and interest areas.
+
+**METHODOLOGY APPLIED:**
+The matching process utilized a sophisticated scoring system that evaluated:
+
+1. **Skill Alignment (70% weighting):** Each PMP professional's self-rated skills (1-5 scale) were matched against project requirements derived from the charity organizations' problem statements and expected outcomes. Skills analyzed included Project Management, Strategic Planning, Business Change Management, Business Analysis, Technology Implementation, Events Planning, and Non-profit Experience.
+
+2. **Experience Factor (20% weighting):** Professional experience levels were prioritized, with senior professionals (8+ years) receiving preference for high-complexity, strategic initiatives, while ensuring knowledge transfer opportunities for emerging professionals.
+
+3. **Interest Alignment (10% weighting):** Professionals who specifically indicated interest in non-profit work, strategic planning, or relevant domain areas received additional matching preference.
+
+**KEY MATCHING PRINCIPLES:**
+- Each charity project has been assigned exactly 2 PMP professionals to ensure adequate coverage and knowledge sharing
+- High-priority and complex projects (such as Sir David Martin Foundation's national Youth AOD Knowledge Hub and Property Industry Foundation's strategic initiatives) received our most experienced professionals
+- Technical projects (ERP implementations, website overhauls) were matched with professionals having strong technical and business analysis capabilities
+- Community-focused projects were paired with professionals who have demonstrated volunteer experience and community engagement interest
+
+**DELIVERABLES PROVIDED:**
+1. Comprehensive Excel workbook with detailed matching summary, scores, and analysis
+2. Project reasoning documentation explaining selection rationale for each assignment
+3. CSV summary file for easy review and distribution
+
+**NEXT STEPS FOR REVIEW:**
+As you suggested, we should review the LinkedIn profiles of assigned professionals during our upcoming call to:
+- Validate skill assessments against actual professional experience
+- Ensure personality and working style compatibility
+- Make any necessary adjustments based on additional insights not captured in the registration forms
+- Confirm availability and commitment levels for the assigned projects
+
+**MATCH CONFIDENCE:**
+The algorithm achieved strong matching scores, with most assignments scoring above 70% compatibility. The highest matches include strategic professionals like Jauhar Janjua (91.43%) for the Sir David Martin Foundation project and events specialists like Haryanni Masarip (88.48%) for the Drummoyne Community Centre anniversary celebration.
+
+I'm confident this data-driven approach provides an excellent foundation for our final assignments, while still allowing flexibility for adjustments based on our qualitative review of professional backgrounds and project nuances.
+
+Please review the attached materials, and I look forward to discussing any questions or potential adjustments during our call.
+
+Best regards,
+Joe
+
+**Attachments:**
+- PMI_PMP_Charity_Matching_Results.xlsx
+- Matching_Results_Summary.txt
+- Matching_Summary.csv

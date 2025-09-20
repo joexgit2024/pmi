@@ -1,0 +1,27 @@
+PMP-CHARITY MATCHING ANALYSIS SUMMARY
+==================================================
+Analysis completed on: 2025-09-20 11:48:22
+
+LINKEDIN ANALYSIS RESULTS:
+------------------------------
+Total PMPs: 20
+Valid LinkedIn URLs: 17
+LinkedIn Coverage %: 85.0%
+Avg LinkedIn Quality Score: 7.6
+Avg Profile Completeness: 9.4
+
+MATCHING RESULTS SUMMARY:
+------------------------------
+Total matches created: 20
+Charities matched: 9
+PMPs assigned: 20
+Average match score: 75.51
+Average LinkedIn quality: 7.6/10
+
+TOP 5 MATCHES BY SCORE:
+-------------------------
+Sir David Martin Foundation ← Jauhar Janjua (Score: 91.11)
+Drummoyne Community Centre Inc ← Haryanni Masarip (Score: 90.00)
+Property Industry Foundation ← Abby Thakur Satyanarayan (Score: 89.05)
+MTC Future Ready ← Ibrahim  Dani  (Score: 87.59)
+MTC Future Ready ← Shannon Blades (Score: 87.59)
