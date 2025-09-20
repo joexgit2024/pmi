@@ -1,37 +1,37 @@
-[2025-09-20 11:48:21] Cleaned up old output files: LinkedIn_Analysis_Report.xlsx
-[2025-09-20 11:48:21] Starting complete PMP-Charity matching analysis pipeline...
-[2025-09-20 11:48:21] Step 0: Validating input files...
-[2025-09-20 11:48:21] ✓ All required input files found
-[2025-09-20 11:48:21] Step 1: Running LinkedIn Profile Analysis...
-[2025-09-20 11:48:22] ✓ LinkedIn analysis completed. Results saved to: LinkedIn_Analysis_Report.xlsx
-[2025-09-20 11:48:22]   LinkedIn Coverage: 17/20 PMPs (85.0%)
-[2025-09-20 11:48:22]   Average LinkedIn Quality: 7.6/10
-[2025-09-20 11:48:22] Step 2: Running Enhanced PMP-Charity Matching...
-[2025-09-20 11:48:22] ✓ Enhanced matching completed. Results saved to: PMI_PMP_Charity_Matching_Results_Enhanced.xlsx
-[2025-09-20 11:48:22] ✓ Quick reference CSV saved to: Matching_Summary.csv
-[2025-09-20 11:48:22]   Total PMPs: 20
-[2025-09-20 11:48:22]   Total Charity Projects: 10
-[2025-09-20 11:48:22]   Total Matches Created: 20
-[2025-09-20 11:48:22]   Match Summary:
-[2025-09-20 11:48:22]     Sir David Martin Foundation: ['Jauhar Janjua', 'Arvin Arikathota'] (Scores: [91.11, 77.04])
-[2025-09-20 11:48:22]     Drummoyne Community Centre Inc: ['Haryanni Masarip', 'Yanika  Okaeva '] (Scores: [90.0, 86.32])
-[2025-09-20 11:48:22]     Property Industry Foundation: ['Abby Thakur Satyanarayan', 'Indra Halim'] (Scores: [89.05, 82.86])
-[2025-09-20 11:48:22]     MTC Future Ready: ['Ibrahim  Dani ', 'Shannon Blades'] (Scores: [87.59, 87.59])
-[2025-09-20 11:48:22]     Cleaning Accountability Framework (CAF): ['Nadun Dhanushka', 'Frederick Xavier'] (Scores: [84.17, 79.17])
-[2025-09-20 11:48:22]     GFG Foundation: ['Maria Mainhardt', 'Doris  Wang'] (Scores: [83.64, 80.0])
-[2025-09-20 11:48:22]     Legacy Club Services: ['Laetitia Callegari ', 'Mirna Alemadi'] (Scores: [75.81, 29.3])
-[2025-09-20 11:48:22]     Rev. Bill Crews Foundation: ['Ryan Benedek', 'Neha Purohit'] (Scores: [75.45, 74.55])
-[2025-09-20 11:48:22]     Property Industry Foundation: ['Suresh Reddy', 'Suresh  Reddy '] (Scores: [65.88, 61.18])
-[2025-09-20 11:48:22]     Total Environment Centre: ['Shreya  Shah', 'Durita Sookharee'] (Scores: [56.96, 52.61])
-[2025-09-20 11:48:22] Step 3: Generating Final Summary Report...
-[2025-09-20 11:48:22] ✓ Summary report generated: Analysis_Summary.txt
-[2025-09-20 11:48:22] ==================================================
-[2025-09-20 11:48:22] 🎉 COMPLETE ANALYSIS FINISHED SUCCESSFULLY!
-[2025-09-20 11:48:22] ==================================================
-[2025-09-20 11:48:22] Output files generated:
-[2025-09-20 11:48:22]   1. LinkedIn_Analysis_Report.xlsx - LinkedIn profile analysis
-[2025-09-20 11:48:22]   2. PMI_PMP_Charity_Matching_Results_Enhanced.xlsx - Complete matching results
-[2025-09-20 11:48:22]   3. Matching_Summary.csv - Quick reference CSV
-[2025-09-20 11:48:22]   4. Analysis_Summary.txt - Executive summary
-[2025-09-20 11:48:22]   5. analysis_log.txt - Detailed processing log
-[2025-09-20 11:48:22] ==================================================
+[2025-09-20 13:01:16] Cleaned up old output files: LinkedIn_Analysis_Report.xlsx, PMI_PMP_Charity_Matching_Results_Enhanced.xlsx, Matching_Summary.csv, analysis_log.txt
+[2025-09-20 13:01:16] Starting complete PMP-Charity matching analysis pipeline...
+[2025-09-20 13:01:16] Step 0: Validating input files...
+[2025-09-20 13:01:16] ✓ All required input files found
+[2025-09-20 13:01:16] Step 1: Running LinkedIn Profile Analysis...
+[2025-09-20 13:01:16] ✓ LinkedIn analysis completed. Results saved to: LinkedIn_Analysis_Report.xlsx
+[2025-09-20 13:01:16]   LinkedIn Coverage: 17/20 PMPs (85.0%)
+[2025-09-20 13:01:16]   Average LinkedIn Quality: 7.6/10
+[2025-09-20 13:01:16] Step 2: Running Enhanced PMP-Charity Matching...
+[2025-09-20 13:01:17] ✓ Enhanced matching completed. Results saved to: PMI_PMP_Charity_Matching_Results_Enhanced.xlsx
+[2025-09-20 13:01:17] ✓ Quick reference CSV saved to: Matching_Summary.csv
+[2025-09-20 13:01:17]   Total PMPs: 20
+[2025-09-20 13:01:17]   Total Charity Projects: 10
+[2025-09-20 13:01:17]   Total Matches Created: 20
+[2025-09-20 13:01:17]   Match Summary:
+[2025-09-20 13:01:17]     Sir David Martin Foundation: ['Jauhar Janjua', 'Arvin Arikathota'] (Scores: [91.11, 77.04])
+[2025-09-20 13:01:17]     Drummoyne Community Centre Inc: ['Haryanni Masarip', 'Yanika  Okaeva '] (Scores: [90.0, 86.32])
+[2025-09-20 13:01:17]     Property Industry Foundation: ['Abby Thakur Satyanarayan', 'Indra Halim'] (Scores: [89.05, 82.86])
+[2025-09-20 13:01:17]     MTC Future Ready: ['Ibrahim  Dani ', 'Shannon Blades'] (Scores: [87.59, 87.59])
+[2025-09-20 13:01:17]     Cleaning Accountability Framework (CAF): ['Nadun Dhanushka', 'Frederick Xavier'] (Scores: [84.17, 79.17])
+[2025-09-20 13:01:17]     GFG Foundation: ['Maria Mainhardt', 'Doris  Wang'] (Scores: [83.64, 80.0])
+[2025-09-20 13:01:17]     Legacy Club Services: ['Laetitia Callegari ', 'Mirna Alemadi'] (Scores: [75.81, 29.3])
+[2025-09-20 13:01:17]     Rev. Bill Crews Foundation: ['Ryan Benedek', 'Neha Purohit'] (Scores: [75.45, 74.55])
+[2025-09-20 13:01:17]     Property Industry Foundation: ['Suresh Reddy', 'Suresh  Reddy '] (Scores: [65.88, 61.18])
+[2025-09-20 13:01:17]     Total Environment Centre: ['Shreya  Shah', 'Durita Sookharee'] (Scores: [56.96, 52.61])
+[2025-09-20 13:01:17] Step 3: Generating Final Summary Report...
+[2025-09-20 13:01:17] ✓ Summary report generated: Analysis_Summary.txt
+[2025-09-20 13:01:17] ==================================================
+[2025-09-20 13:01:17] 🎉 COMPLETE ANALYSIS FINISHED SUCCESSFULLY!
+[2025-09-20 13:01:17] ==================================================
+[2025-09-20 13:01:17] Output files generated:
+[2025-09-20 13:01:17]   1. LinkedIn_Analysis_Report.xlsx - LinkedIn profile analysis
+[2025-09-20 13:01:17]   2. PMI_PMP_Charity_Matching_Results_Enhanced.xlsx - Complete matching results
+[2025-09-20 13:01:17]   3. Matching_Summary.csv - Quick reference CSV
+[2025-09-20 13:01:17]   4. Analysis_Summary.txt - Executive summary
+[2025-09-20 13:01:17]   5. analysis_log.txt - Detailed processing log
+[2025-09-20 13:01:17] ==================================================
