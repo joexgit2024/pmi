@@ -1,0 +1,3 @@
+# Keep this directory in Git but ignore the files
+# This ensures the input/ directory structure is preserved
+# while keeping sensitive Excel data files private
