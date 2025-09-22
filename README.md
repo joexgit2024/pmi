@@ -35,9 +35,21 @@ cd pmi
    - Charity project information responses
 
 3. Run the complete analysis:
-```bash
-python run_complete_analysis.py
-```
+
+   **Standard Assignment (2 PMPs per charity):**
+   ```bash
+   python run_complete_analysis.py
+   ```
+
+   **Flexible Assignment (All PMPs assigned, 3+ PMPs per project):**
+   ```bash
+   python run_complete_analysis.py --flexible
+   ```
+
+### Assignment Modes
+
+- **Standard Mode**: Assigns exactly 2 PMPs per charity project (traditional approach)
+- **Flexible Mode**: Assigns all available PMPs to projects based on capacity scoring, allowing some projects to have 3+ PMPs for optimal resource utilization
 
 ## 📁 Project Structure
 

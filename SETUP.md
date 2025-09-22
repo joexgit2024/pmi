@@ -19,8 +19,15 @@ pip install -r requirements.txt
 3. Ensure file names match the expected format (see README.md)
 
 ### 4. Run Analysis
+
+**Standard Assignment (2 PMPs per charity):**
 ```bash
 python run_complete_analysis.py
+```
+
+**Flexible Assignment (All PMPs assigned):**
+```bash
+python run_complete_analysis.py --flexible
 ```
 
 ## 📋 Expected Input File Format

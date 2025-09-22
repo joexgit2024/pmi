@@ -28,7 +28,6 @@ Output Files Generated:
 
 import pandas as pd
 import os
-import sys
 from datetime import datetime
 
 
@@ -119,20 +118,36 @@ def run_linkedin_analysis():
         return False
 
 
-def run_enhanced_matching():
+def run_enhanced_matching(use_flexible_assignment=False):
     """Step 2: Run enhanced PMP-Charity matching"""
-    log_message("Step 2: Running Enhanced PMP-Charity Matching...")
+    if use_flexible_assignment:
+        log_message("Step 2: Running Flexible PMP Assignment (All PMPs to Projects)...")
+    else:
+        log_message("Step 2: Running Standard Enhanced PMP-Charity Matching (2 PMPs per charity)...")
     
     try:
-        # Import the enhanced matching functions
-        from enhanced_pmp_charity_matching import (
-            load_and_process_data,
-            extract_pmp_skills,
-            analyze_charity_requirements,
-            create_optimal_matching,
-            generate_matching_report,
-            create_detailed_analysis
-        )
+        if use_flexible_assignment:
+            # Import flexible assignment functions
+            from flexible_pmp_assignment import (
+                create_flexible_matching,
+                generate_flexible_matching_report,
+                calculate_project_capacity_score
+            )
+            from enhanced_pmp_charity_matching import (
+                load_and_process_data,
+                extract_pmp_skills,
+                analyze_charity_requirements
+            )
+        else:
+            # Import the standard enhanced matching functions
+            from enhanced_pmp_charity_matching import (
+                load_and_process_data,
+                extract_pmp_skills,
+                analyze_charity_requirements,
+                create_optimal_matching,
+                generate_matching_report,
+                create_detailed_analysis
+            )
         
         # Load and process data
         pmp_df, charity_df = load_and_process_data()
@@ -143,22 +158,30 @@ def run_enhanced_matching():
         # Analyze charity requirements
         charity_projects = analyze_charity_requirements(charity_df)
         
-        # Create optimal matching
-        final_matches, assigned_charities = create_optimal_matching(pmp_profiles, charity_projects)
-        
-        # Generate reports
-        matching_summary = generate_matching_report(final_matches, assigned_charities)
-        detailed_analysis = create_detailed_analysis(pmp_profiles, charity_projects, final_matches)
+        # Create matching based on assignment type
+        if use_flexible_assignment:
+            final_matches, assigned_charities = create_flexible_matching(pmp_profiles, charity_projects)
+            matching_summary = generate_flexible_matching_report(final_matches, assigned_charities)
+            output_file = 'PMI_PMP_Charity_Flexible_Matching_Results.xlsx'
+            sheet_name = 'Flexible_Matching'
+            log_message("  Using flexible assignment (all PMPs assigned)")
+        else:
+            final_matches, assigned_charities = create_optimal_matching(pmp_profiles, charity_projects)
+            matching_summary = generate_matching_report(final_matches, assigned_charities)
+            detailed_analysis = create_detailed_analysis(pmp_profiles, charity_projects, final_matches)
+            output_file = 'PMI_PMP_Charity_Matching_Results_Enhanced.xlsx'
+            sheet_name = 'Enhanced_Matching_Summary'
+            log_message("  Using standard assignment (2 PMPs per charity)")
         
         # Save enhanced matching results
-        output_file = 'PMI_PMP_Charity_Matching_Results_Enhanced.xlsx'
         with pd.ExcelWriter(output_file, engine='xlsxwriter') as writer:
             
             # Enhanced summary sheet
-            matching_summary.to_excel(writer, sheet_name='Enhanced_Matching_Summary', index=False)
+            matching_summary.to_excel(writer, sheet_name=sheet_name, index=False)
             
-            # Detailed analysis with LinkedIn
-            detailed_analysis.to_excel(writer, sheet_name='Detailed_Analysis_Enhanced', index=False)
+            # Detailed analysis (only for standard matching)
+            if not use_flexible_assignment:
+                detailed_analysis.to_excel(writer, sheet_name='Detailed_Analysis_Enhanced', index=False)
             
             # LinkedIn analysis
             linkedin_analysis = pd.DataFrame([{
@@ -314,10 +337,23 @@ def main():
     
     When your Excel input files change, just run:
         python run_complete_analysis.py
+        
+    Or for flexible assignment (all PMPs to projects):
+        python run_complete_analysis.py --flexible
     """
     
+    import sys
+    
+    # Check for flexible assignment flag
+    use_flexible = '--flexible' in sys.argv or '-f' in sys.argv
+    
     print("=" * 70)
-    print("PMP-CHARITY MATCHING COMPLETE ANALYSIS PIPELINE")
+    if use_flexible:
+        print("PMP-CHARITY FLEXIBLE MATCHING COMPLETE ANALYSIS PIPELINE")
+        print("(All 22 PMPs assigned to projects - some projects get 3+ PMPs)")
+    else:
+        print("PMP-CHARITY STANDARD MATCHING COMPLETE ANALYSIS PIPELINE")
+        print("(Standard 2 PMPs per charity assignment)")
     print("=" * 70)
     print("This script will run the complete analysis when input files change.")
     print("Input files expected in 'input/' directory.")
@@ -327,7 +363,10 @@ def main():
     cleanup_old_outputs()
     
     # Initialize log
-    log_message("Starting complete PMP-Charity matching analysis pipeline...")
+    if use_flexible:
+        log_message("Starting flexible PMP-Charity matching analysis pipeline...")
+    else:
+        log_message("Starting standard PMP-Charity matching analysis pipeline...")
     
     # Step 0: Validate input files
     log_message("Step 0: Validating input files...")
@@ -340,8 +379,8 @@ def main():
         log_message("ANALYSIS ABORTED: LinkedIn analysis failed")
         return False
     
-    # Step 2: Enhanced Matching
-    if not run_enhanced_matching():
+    # Step 2: Enhanced Matching (with assignment type choice)
+    if not run_enhanced_matching(use_flexible_assignment=use_flexible):
         log_message("ANALYSIS ABORTED: Enhanced matching failed")
         return False
     
