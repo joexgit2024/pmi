@@ -86,37 +86,79 @@ def create_flexible_matching(pmp_profiles, charity_projects):
     for charity in charity_projects:
         capacity = calculate_project_capacity_score(charity)
         project_capacities[charity['ID']] = {
-            'max_capacity': capacity,
+            'max_capacity': max(capacity, 2),  # Ensure minimum 2 PMPs
+            'min_capacity': 2,  # Minimum 2 PMPs for risk management
             'current_assignments': 0,
             'assigned_pmps': []
         }
     
-    # Assign PMPs using flexible algorithm
+    # Assign PMPs using flexible algorithm with minimum requirements
     assigned_pmps = set()
     final_matches = []
     
     print("=== PROJECT CAPACITY ANALYSIS ===")
     for charity in charity_projects:
         capacity = project_capacities[charity['ID']]['max_capacity']
-        print(f"{charity['Organization']}: Max capacity {capacity} PMPs")
+        min_capacity = project_capacities[charity['ID']]['min_capacity']
+        org_name = charity['Organization']
+        print(f"{org_name}: Capacity {min_capacity}-{capacity} PMPs "
+              f"(min {min_capacity} for risk management)")
         print(f"  - Priority: {charity['Priority_Level']}")
         print(f"  - Complexity: {charity['Complexity']}")
-        print(f"  - Skill requirements: {sum(1 for w in charity['Required_Skills'].values() if w > 2)} significant skills")
+        skill_count = sum(1 for w in charity['Required_Skills'].values() 
+                         if w > 2)
+        print(f"  - Skill requirements: {skill_count} significant skills")
         print()
     
-    # First pass: Assign top matches respecting capacities
-    for match in all_matches:
+    # Phase 1: Ensure each project gets minimum 2 PMPs
+    print("=== PHASE 1: Ensuring minimum 2 PMPs per project ===")
+    projects_needing_min = list(charity_projects)
+    
+    for project in projects_needing_min:
+        charity_id = project['ID']
+        project_matches = [m for m in all_matches 
+                          if m['Charity_ID'] == charity_id 
+                          and m['PMP_ID'] not in assigned_pmps]
+        
+        # Assign top 2 matches for this project
+        for i in range(min(2, len(project_matches))):
+            match = project_matches[i]
+            pmp_id = match['PMP_ID']
+            
+            if pmp_id not in assigned_pmps:
+                assigned_pmps.add(pmp_id)
+                project_capacities[charity_id]['current_assignments'] += 1
+                project_capacities[charity_id]['assigned_pmps'].append(match)
+                final_matches.append(match)
+                pmp_name = match['PMP_Name']
+                org_name = project['Organization']
+                print(f"  Assigned {pmp_name} to {org_name} (min requirement)")
+    
+    # Phase 2: Assign remaining PMPs to projects with available capacity
+    print("\n=== PHASE 2: Assigning remaining PMPs based on capacity ===")
+    remaining_matches = [m for m in all_matches 
+                        if m['PMP_ID'] not in assigned_pmps]
+    
+    for match in remaining_matches:
         charity_id = match['Charity_ID']
         pmp_id = match['PMP_ID']
         
-        if (pmp_id not in assigned_pmps and 
-            project_capacities[charity_id]['current_assignments'] < project_capacities[charity_id]['max_capacity']):
-            
+        current_count = project_capacities[charity_id]['current_assignments']
+        max_capacity = project_capacities[charity_id]['max_capacity']
+        
+        if pmp_id not in assigned_pmps and current_count < max_capacity:
             # Assign this PMP
             assigned_pmps.add(pmp_id)
             project_capacities[charity_id]['current_assignments'] += 1
             project_capacities[charity_id]['assigned_pmps'].append(match)
             final_matches.append(match)
+            
+            pmp_name = match['PMP_Name']
+            org_name = next(c['Organization'] for c in charity_projects 
+                           if c['ID'] == charity_id)
+            print(f"  Assigned {pmp_name} to {org_name} (additional capacity)")
+    
+    
     
     # Check if all PMPs are assigned
     unassigned_pmps = [p for p in pmp_profiles if p['ID'] not in assigned_pmps]

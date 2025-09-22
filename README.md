@@ -49,7 +49,9 @@ cd pmi
 ### Assignment Modes
 
 - **Standard Mode**: Assigns exactly 2 PMPs per charity project (traditional approach)
-- **Flexible Mode**: Assigns all available PMPs to projects based on capacity scoring, allowing some projects to have 3+ PMPs for optimal resource utilization
+- **Flexible Mode**: Assigns all available PMPs to projects with **minimum 2 PMPs per project for risk management**, allowing some projects to have 3+ PMPs for optimal resource utilization
+
+**Risk Management**: Both modes ensure each project has at least 2 PMPs to prevent single points of failure and maintain project continuity.
 
 ## 📁 Project Structure
 
