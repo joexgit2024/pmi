@@ -1,0 +1,38 @@
+# Email Subject Line Options for PMDoS 2025 Acknowledgment
+
+## Primary Recommendation:
+**PMDoS 2025: Registration Received - Selection Update Coming Soon**
+
+## Alternative Subject Lines:
+
+### Professional & Clear:
+- "PMI Sydney PMDoS 2025: Your Registration Status Update"
+- "Project Management Day of Service 2025 - Application Acknowledgment"
+- "PMDoS 2025: Thank You for Registering - Next Steps"
+
+### Action-Oriented:
+- "PMDoS 2025: Registration Confirmed - Selection Results Pending"
+- "Your PMDoS 2025 Application: Status Update Timeline"
+
+### Community-Focused:
+- "PMDoS 2025: Thank You for Your Community Service Interest"
+- "Project Management Day of Service: Registration Acknowledgment"
+
+## Email Template with Placeholders:
+
+**Subject:** PMDoS 2025: Registration Received - Selection Update Coming Soon
+
+**To:** [Preferred Email Address]
+
+**Body:**
+Dear [First Name] [Last Name],
+
+[Rest of email content from revised_acknowledgment_email.txt]
+
+## Technical Implementation Notes:
+
+- Use mail merge with Excel data (First Name, Last Name, Preferred Email Address)
+- Test with small batch first
+- Consider using professional email service (not Gmail/Outlook personal)
+- Include unsubscribe option if using mass email service
+- Add PMI Sydney Chapter branding/logo if possible
