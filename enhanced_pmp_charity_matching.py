@@ -16,16 +16,24 @@ import numpy as np
 
 
 def load_and_process_data():
-    """Load and process both datasets"""
+    """Load and process both datasets (with dynamic file detection)"""
+    from dynamic_file_loader import get_latest_input_files
+    
+    # Get latest files dynamically
+    pmp_file, charity_file = get_latest_input_files()
+    
+    if not pmp_file:
+        raise FileNotFoundError("Could not find PMP registration file in input/ directory")
+    if not charity_file:
+        raise FileNotFoundError("Could not find charity information file in input/ directory")
+    
+    print(f"Loading PMP data from: {pmp_file}")
+    print(f"Loading charity data from: {charity_file}")
     
     # Read PMP professionals data
-    pmp_file = (r"c:\PMI\input\2025 - PMI Sydney Chapter Project Management "
-                r"Day of Service (PMDoS) 2025 Professional Registration "
-                r"(Responses).xlsx")
     pmp_df = pd.read_excel(pmp_file)
     
     # Read charity projects data
-    charity_file = r"c:\PMI\input\Charities Project Information 2025 (Responses).xlsx"
     charity_df = pd.read_excel(charity_file)
     
     return pmp_df, charity_df

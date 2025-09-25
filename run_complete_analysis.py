@@ -15,9 +15,9 @@ The script will:
 4. Perform optimal matching with LinkedIn considerations
 5. Generate comprehensive reports
 
-Input Files Required:
-- input/2025 - PMI Sydney Chapter Project Management Day of Service (PMDoS) 2025 Professional Registration (Responses).xlsx
-- input/Charities Project Information 2025 (Responses).xlsx
+Input Files Required (automatically detected):
+- Any Excel file in input/ containing "PMDoS", "Registration", "Responses" (most recent will be used)
+- Any Excel file in input/ containing "Charities", "Information", "Responses" (most recent will be used)
 
 Output Files Generated:
 - LinkedIn_Analysis_Report.xlsx
@@ -42,25 +42,24 @@ def log_message(message, log_file="analysis_log.txt"):
 
 
 def validate_input_files():
-    """Validate that required input files exist"""
-    required_files = [
-        "input/2025 - PMI Sydney Chapter Project Management Day of Service (PMDoS) 2025 Professional Registration (Responses).xlsx",
-        "input/Charities Project Information 2025 (Responses).xlsx"
-    ]
+    """Validate that required input files exist (dynamic file detection)"""
+    from dynamic_file_loader import get_latest_input_files
     
-    missing_files = []
-    for file_path in required_files:
-        if not os.path.exists(file_path):
-            missing_files.append(file_path)
+    reg_file, charity_file = get_latest_input_files()
     
-    if missing_files:
-        log_message("ERROR: Missing required input files:")
-        for file_path in missing_files:
-            log_message(f"  - {file_path}")
-        log_message("Please ensure all input files are in the 'input' directory.")
+    if not reg_file:
+        log_message("ERROR: No PMDoS registration file found in input/")
+        log_message("Looking for files containing: 'PMDoS', 'Registration', 'Responses'")
+        return False
+        
+    if not charity_file:
+        log_message("ERROR: No charity information file found in input/")
+        log_message("Looking for files containing: 'Charities', 'Information', 'Responses'")
         return False
     
-    log_message("✓ All required input files found")
+    log_message(f"✓ Found registration file: {os.path.basename(reg_file)}")
+    log_message(f"✓ Found charity file: {os.path.basename(charity_file)}")
+    
     return True
 
 
@@ -76,9 +75,13 @@ def run_linkedin_analysis():
             enhanced_extract_pmp_skills
         )
         
-        # Load PMP data
-        pmp_file = ("input/2025 - PMI Sydney Chapter Project Management Day of Service "
-                   "(PMDoS) 2025 Professional Registration (Responses).xlsx")
+        # Load PMP data (dynamic file detection)
+        from dynamic_file_loader import get_latest_input_files
+        pmp_file, _ = get_latest_input_files()
+        if not pmp_file:
+            raise Exception("Could not find PMP registration file")
+        
+        log_message(f"Using registration file: {os.path.basename(pmp_file)}")
         pmp_df = pd.read_excel(pmp_file)
         
         # Validate LinkedIn URLs

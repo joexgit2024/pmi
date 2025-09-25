@@ -3,8 +3,15 @@ import os
 from datetime import datetime
 
 def create_email_drafts():
-    # Read the Excel file
-    df = pd.read_excel('input/2025 - PMI Sydney Chapter Project Management Day of Service (PMDoS) 2025 Professional Registration (Responses).xlsx')
+    # Read the Excel file (dynamic file detection)
+    from dynamic_file_loader import get_latest_input_files
+    
+    reg_file, _ = get_latest_input_files()
+    if not reg_file:
+        raise FileNotFoundError("Could not find PMP registration file")
+    
+    print(f"Loading data from: {reg_file}")
+    df = pd.read_excel(reg_file)
     
     # Read the email template
     with open('revised_acknowledgment_email.txt', 'r', encoding='utf-8') as file:

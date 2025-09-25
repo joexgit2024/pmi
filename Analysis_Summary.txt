@@ -1,12 +1,27 @@
 PMP-CHARITY MATCHING ANALYSIS SUMMARY
 ==================================================
-Analysis completed on: 2025-09-22 20:03:17
+Analysis completed on: 2025-09-26 08:38:23
 
 LINKEDIN ANALYSIS RESULTS:
 ------------------------------
-Total PMPs: 22
-Valid LinkedIn URLs: 18
-LinkedIn Coverage %: 81.8%
-Avg LinkedIn Quality Score: 7.4
-Avg Profile Completeness: 9.3
+Total PMPs: 33
+Valid LinkedIn URLs: 24
+LinkedIn Coverage %: 72.7%
+Avg LinkedIn Quality Score: 6.5
+Avg Profile Completeness: 9.2
 
+MATCHING RESULTS SUMMARY:
+------------------------------
+Total matches created: 20
+Charities matched: 9
+PMPs assigned: 20
+Average match score: 83.64
+Average LinkedIn quality: 7.3/10
+
+TOP 5 MATCHES BY SCORE:
+-------------------------
+Legacy Club Services ← Sameh  Megally  (Score: 93.02)
+Sir David Martin Foundation ← Emma  Voss (Score: 92.96)
+Sir David Martin Foundation ← Jauhar Janjua (Score: 91.11)
+Drummoyne Community Centre Inc ← Haryanni Masarip (Score: 90.00)
+MTC Future Ready ← Hadi Ahmadi (Score: 89.66)
