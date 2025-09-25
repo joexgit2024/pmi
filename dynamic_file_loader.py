@@ -25,6 +25,8 @@ def find_latest_registration_file(input_dir="input"):
     for pattern in patterns:
         search_path = os.path.join(input_dir, pattern)
         matching_files = glob.glob(search_path)
+        # Filter out temporary Excel files (starting with ~$)
+        matching_files = [f for f in matching_files if not os.path.basename(f).startswith('~$')]
         files_found.extend(matching_files)
     
     if not files_found:
@@ -54,6 +56,8 @@ def find_latest_charity_file(input_dir="input"):
     for pattern in patterns:
         search_path = os.path.join(input_dir, pattern)
         matching_files = glob.glob(search_path)
+        # Filter out temporary Excel files (starting with ~$)
+        matching_files = [f for f in matching_files if not os.path.basename(f).startswith('~$')]
         files_found.extend(matching_files)
     
     if not files_found:

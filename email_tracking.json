@@ -1,0 +1,320 @@
+{
+  "metadata": {
+    "created": "2025-09-26T08:55:27.770265",
+    "last_updated": "2025-09-26T08:55:28.005414",
+    "total_emails_sent": 34,
+    "batches": [
+      {
+        "batch_id": "initial_batch_29",
+        "date": "2025-09-26",
+        "count": 29,
+        "folder": "email_drafts"
+      },
+      {
+        "batch_id": "batch_20250926_01",
+        "date": "2025-09-26",
+        "count": 5,
+        "folder": "new_email_drafts/2025-09-26"
+      }
+    ]
+  },
+  "sent_emails": {
+    "mainhardt.maria@gmail.com": {
+      "name": "Maria Mainhardt",
+      "email": "mainhardt.maria@gmail.com",
+      "sent_date": "2025-09-26",
+      "draft_file": "email_drafts\\01_Maria_Mainhardt_email_draft.txt",
+      "batch_id": "initial_batch_29",
+      "registration_timestamp": "2025-09-01 13:17:08.960000",
+      "pmi_id": "5197956"
+    },
+    "neha_purohit08@outlook.com": {
+      "name": "Neha Purohit",
+      "email": "neha_purohit08@outlook.com",
+      "sent_date": "2025-09-26",
+      "draft_file": "email_drafts\\02_Neha_Purohit_email_draft.txt",
+      "batch_id": "initial_batch_29",
+      "registration_timestamp": "2025-09-09 16:16:58.547000",
+      "pmi_id": "nan"
+    },
+    "mirna.alemadi@gmail.com": {
+      "name": "Mirna Alemadi",
+      "email": "mirna.alemadi@gmail.com",
+      "sent_date": "2025-09-26",
+      "draft_file": "email_drafts\\03_Mirna_Alemadi_email_draft.txt",
+      "batch_id": "initial_batch_29",
+      "registration_timestamp": "2025-09-09 18:05:52.441000",
+      "pmi_id": "nan"
+    },
+    "doriswang313@gmail.com": {
+      "name": "Doris  Wang",
+      "email": "doriswang313@gmail.com",
+      "sent_date": "2025-09-26",
+      "draft_file": "email_drafts\\04_Doris_Wang_email_draft.txt",
+      "batch_id": "initial_batch_29",
+      "registration_timestamp": "2025-09-09 18:54:07.763000",
+      "pmi_id": "nan"
+    },
+    "okaevay@gmail.com": {
+      "name": "Yanika  Okaeva",
+      "email": "okaevay@gmail.com",
+      "sent_date": "2025-09-26",
+      "draft_file": "email_drafts\\05_Yanika_Okaeva_email_draft.txt",
+      "batch_id": "initial_batch_29",
+      "registration_timestamp": "2025-09-09 22:38:04.911000",
+      "pmi_id": "nan"
+    },
+    "jajanjua@gmail.com": {
+      "name": "Jauhar Janjua",
+      "email": "jajanjua@gmail.com",
+      "sent_date": "2025-09-26",
+      "draft_file": "email_drafts\\06_Jauhar_Janjua_email_draft.txt",
+      "batch_id": "initial_batch_29",
+      "registration_timestamp": "2025-09-10 12:29:21.120000",
+      "pmi_id": "2629491"
+    },
+    "ibrahimdani@hotmail.com": {
+      "name": "Ibrahim  Dani",
+      "email": "ibrahimdani@hotmail.com",
+      "sent_date": "2025-09-26",
+      "draft_file": "email_drafts\\07_Ibrahim_Dani_email_draft.txt",
+      "batch_id": "initial_batch_29",
+      "registration_timestamp": "2025-09-10 14:34:01.574000",
+      "pmi_id": "557767"
+    },
+    "arvinds.m5@gmail.com": {
+      "name": "Arvin Arikathota",
+      "email": "arvinds.m5@gmail.com",
+      "sent_date": "2025-09-26",
+      "draft_file": "email_drafts\\08_Arvin_Arikathota_email_draft.txt",
+      "batch_id": "initial_batch_29",
+      "registration_timestamp": "2025-09-11 10:24:35.214000",
+      "pmi_id": "nan"
+    },
+    "haryanni.m@gmail.com": {
+      "name": "Haryanni Masarip",
+      "email": "haryanni.m@gmail.com",
+      "sent_date": "2025-09-26",
+      "draft_file": "email_drafts\\09_Haryanni_Masarip_email_draft.txt",
+      "batch_id": "initial_batch_29",
+      "registration_timestamp": "2025-09-11 10:45:43.433000",
+      "pmi_id": "2194785"
+    },
+    "academicoutreach@pmisydney.org": {
+      "name": "Laetitia Callegari",
+      "email": "academicoutreach@pmisydney.org",
+      "sent_date": "2025-09-26",
+      "draft_file": "email_drafts\\10_Laetitia_Callegari_email_draft.txt",
+      "batch_id": "initial_batch_29",
+      "registration_timestamp": "2025-09-11 11:18:00.772000",
+      "pmi_id": "nan"
+    },
+    "nadunnc@gmail.com": {
+      "name": "Nadun Dhanushka",
+      "email": "nadunnc@gmail.com",
+      "sent_date": "2025-09-26",
+      "draft_file": "email_drafts\\11_Nadun_Dhanushka_email_draft.txt",
+      "batch_id": "initial_batch_29",
+      "registration_timestamp": "2025-09-11 12:04:58.677000",
+      "pmi_id": "5089694"
+    },
+    "reddysuresh27@gmail.com": {
+      "name": "Suresh  Reddy",
+      "email": "reddysuresh27@gmail.com",
+      "sent_date": "2025-09-26",
+      "draft_file": "email_drafts\\15_Suresh_Reddy_email_draft.txt",
+      "batch_id": "initial_batch_29",
+      "registration_timestamp": "2025-09-11 21:22:06.083000",
+      "pmi_id": "10692696"
+    },
+    "dsookharee@northrop.com.au": {
+      "name": "Durita Sookharee",
+      "email": "dsookharee@northrop.com.au",
+      "sent_date": "2025-09-26",
+      "draft_file": "email_drafts\\13_Durita_Sookharee_email_draft.txt",
+      "batch_id": "initial_batch_29",
+      "registration_timestamp": "2025-09-11 22:08:44.148000",
+      "pmi_id": "6496809"
+    },
+    "freddie.rx@gmail.com": {
+      "name": "Frederick Xavier",
+      "email": "freddie.rx@gmail.com",
+      "sent_date": "2025-09-26",
+      "draft_file": "email_drafts\\14_Frederick_Xavier_email_draft.txt",
+      "batch_id": "initial_batch_29",
+      "registration_timestamp": "2025-09-11 23:17:43.719000",
+      "pmi_id": "34485"
+    },
+    "abhilasha_thakur@yahoo.com": {
+      "name": "Abby Thakur Satyanarayan",
+      "email": "abhilasha_thakur@yahoo.com",
+      "sent_date": "2025-09-26",
+      "draft_file": "email_drafts\\16_Abby_Thakur_Satyanarayan_email_draft.txt",
+      "batch_id": "initial_batch_29",
+      "registration_timestamp": "2025-09-15 11:51:03.981000",
+      "pmi_id": "nan"
+    },
+    "indrahalimpm@gmail.com": {
+      "name": "Indra Halim",
+      "email": "indrahalimpm@gmail.com",
+      "sent_date": "2025-09-26",
+      "draft_file": "email_drafts\\17_Indra_Halim_email_draft.txt",
+      "batch_id": "initial_batch_29",
+      "registration_timestamp": "2025-09-15 16:18:25.610000",
+      "pmi_id": "nan"
+    },
+    "shannonleahblades@gmail.com": {
+      "name": "Shannon Blades",
+      "email": "shannonleahblades@gmail.com",
+      "sent_date": "2025-09-26",
+      "draft_file": "email_drafts\\18_Shannon_Blades_email_draft.txt",
+      "batch_id": "initial_batch_29",
+      "registration_timestamp": "2025-09-16 14:48:56.033000",
+      "pmi_id": "11419390"
+    },
+    "shreya.shah@student.unsw.edu.au": {
+      "name": "Shreya  Shah",
+      "email": "shreya.shah@student.unsw.edu.au",
+      "sent_date": "2025-09-26",
+      "draft_file": "email_drafts\\19_Shreya_Shah_email_draft.txt",
+      "batch_id": "initial_batch_29",
+      "registration_timestamp": "2025-09-17 15:35:51.969000",
+      "pmi_id": "nan"
+    },
+    "rbenedek21@gmail.com": {
+      "name": "Ryan Benedek",
+      "email": "rbenedek21@gmail.com",
+      "sent_date": "2025-09-26",
+      "draft_file": "email_drafts\\20_Ryan_Benedek_email_draft.txt",
+      "batch_id": "initial_batch_29",
+      "registration_timestamp": "2025-09-18 16:07:58.777000",
+      "pmi_id": "8270980"
+    },
+    "jacqueline.shen@blueyonder.com": {
+      "name": "Jacqueline Shen",
+      "email": "jacqueline.shen@blueyonder.com",
+      "sent_date": "2025-09-26",
+      "draft_file": "email_drafts\\21_Jacqueline_Shen_email_draft.txt",
+      "batch_id": "initial_batch_29",
+      "registration_timestamp": "2025-09-22 16:19:14.030000",
+      "pmi_id": "nan"
+    },
+    "ngittins@atlassian.com": {
+      "name": "Nikki Gittins",
+      "email": "ngittins@atlassian.com",
+      "sent_date": "2025-09-26",
+      "draft_file": "email_drafts\\22_Nikki_Gittins_email_draft.txt",
+      "batch_id": "initial_batch_29",
+      "registration_timestamp": "2025-09-22 18:01:37.618000",
+      "pmi_id": "nan"
+    },
+    "pharris3@optusnet.com.au": {
+      "name": "Peter Harrison",
+      "email": "pharris3@optusnet.com.au",
+      "sent_date": "2025-09-26",
+      "draft_file": "email_drafts\\23_Peter_Harrison_email_draft.txt",
+      "batch_id": "initial_batch_29",
+      "registration_timestamp": "2025-09-22 19:43:26.356000",
+      "pmi_id": "1808611"
+    },
+    "aishwarya.rajendran2012@gmail.com": {
+      "name": "Aishwarya  Rajendran",
+      "email": "aishwarya.rajendran2012@gmail.com",
+      "sent_date": "2025-09-26",
+      "draft_file": "email_drafts\\24_Aishwarya_Rajendran_email_draft.txt",
+      "batch_id": "initial_batch_29",
+      "registration_timestamp": "2025-09-23 12:28:37.008000",
+      "pmi_id": "nan"
+    },
+    "carolmelo.pm@gmail.com": {
+      "name": "Carolina Abelha Melo",
+      "email": "carolmelo.pm@gmail.com",
+      "sent_date": "2025-09-26",
+      "draft_file": "email_drafts\\25_Carolina_Abelha_Melo_email_draft.txt",
+      "batch_id": "initial_batch_29",
+      "registration_timestamp": "2025-09-23 12:46:07.496000",
+      "pmi_id": "5766316"
+    },
+    "ivonne.portoc@gmail.com": {
+      "name": "Ivonne Portocarrero",
+      "email": "ivonne.portoc@gmail.com",
+      "sent_date": "2025-09-26",
+      "draft_file": "email_drafts\\26_Ivonne_Portocarrero_email_draft.txt",
+      "batch_id": "initial_batch_29",
+      "registration_timestamp": "2025-09-23 12:52:54.107000",
+      "pmi_id": "nan"
+    },
+    "rda.john@gmail.com": {
+      "name": "Richard John",
+      "email": "RDA.JOHN@gmail.com",
+      "sent_date": "2025-09-26",
+      "draft_file": "email_drafts\\27_Richard_John_email_draft.txt",
+      "batch_id": "initial_batch_29",
+      "registration_timestamp": "2025-09-23 17:03:21.540000",
+      "pmi_id": "nan"
+    },
+    "samehtalat@yahoo.com": {
+      "name": "Sameh  Megally",
+      "email": "samehtalat@yahoo.com",
+      "sent_date": "2025-09-26",
+      "draft_file": "email_drafts\\28_Sameh_Megally_email_draft.txt",
+      "batch_id": "initial_batch_29",
+      "registration_timestamp": "2025-09-23 18:47:22.524000",
+      "pmi_id": "1142299"
+    },
+    "achintyah619@gmail.com": {
+      "name": "Achintya Hrishikesh",
+      "email": "achintyah619@gmail.com",
+      "sent_date": "2025-09-26",
+      "draft_file": "email_drafts\\29_Achintya_Hrishikesh_email_draft.txt",
+      "batch_id": "initial_batch_29",
+      "registration_timestamp": "2025-09-24 13:49:50.734000",
+      "pmi_id": "nan"
+    },
+    "reddyshailu24@gmail.com": {
+      "name": "Suresh Reddy",
+      "email": "reddyshailu24@gmail.com",
+      "sent_date": "2025-09-26",
+      "draft_file": "new_email_drafts/2025-09-26/30_Suresh_Reddy_email_draft.txt",
+      "batch_id": "batch_20250926_01",
+      "registration_timestamp": "2025-09-15 09:16:28.919000",
+      "pmi_id": "10692696"
+    },
+    "jwright7@woolworths.com.au": {
+      "name": "Julia Wright",
+      "email": "jwright7@woolworths.com.au",
+      "sent_date": "2025-09-26",
+      "draft_file": "new_email_drafts/2025-09-26/30_Julia_Wright_email_draft.txt",
+      "batch_id": "batch_20250926_01",
+      "registration_timestamp": "2025-09-25 12:56:34.400000",
+      "pmi_id": "not sure "
+    },
+    "evoss@woolworths.com.au": {
+      "name": "Emma  Voss",
+      "email": "evoss@woolworths.com.au",
+      "sent_date": "2025-09-26",
+      "draft_file": "new_email_drafts/2025-09-26/30_Emma__Voss_email_draft.txt",
+      "batch_id": "batch_20250926_01",
+      "registration_timestamp": "2025-09-25 12:57:06.082000",
+      "pmi_id": "nan"
+    },
+    "lnorris@woolworth.com.au": {
+      "name": "Lindsey Norris",
+      "email": "lnorris@woolworth.com.au",
+      "sent_date": "2025-09-26",
+      "draft_file": "new_email_drafts/2025-09-26/30_Lindsey_Norris_email_draft.txt",
+      "batch_id": "batch_20250926_01",
+      "registration_timestamp": "2025-09-25 13:01:38.059000",
+      "pmi_id": "nan"
+    },
+    "mahmadi@woolworths.com.au": {
+      "name": "Hadi Ahmadi",
+      "email": "mahmadi@woolworths.com.au",
+      "sent_date": "2025-09-26",
+      "draft_file": "new_email_drafts/2025-09-26/30_Hadi_Ahmadi_email_draft.txt",
+      "batch_id": "batch_20250926_01",
+      "registration_timestamp": "2025-09-25 13:44:22.417000",
+      "pmi_id": "4136299"
+    }
+  }
+}
