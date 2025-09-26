@@ -5,10 +5,13 @@
 {% block content %}
 <div class="row">
     <div class="col-12">
-        <h1 class="h3 mb-4">
-            <i class="bi bi-speedometer2"></i>
-            System Dashboard
-        </h1>
+        <div class="d-flex align-items-center gap-3 mb-4">
+            <h1 class="h3 mb-0">
+                <i class="bi bi-speedometer2"></i>
+                System Dashboard
+            </h1>
+            <span id="lastAnalysisBadge" class="badge bg-secondary" style="display:none;">Last analysis: --</span>
+        </div>
     </div>
 </div>
 

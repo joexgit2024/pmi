@@ -5,6 +5,9 @@ from app.models.charity import Charity
 from app.models.matching import MatchingResult
 from app.models.email_tracking import EmailTracking
 from app import db
+from sqlalchemy import desc, func
+from datetime import datetime
+import os
 
 api = Blueprint('api', __name__, url_prefix='/api')
 bp = api  # Alias for consistent import
@@ -14,15 +17,29 @@ def dashboard_stats():
     """Get dashboard statistics."""
     try:
         total_registrations = Registration.query.count()
-        successful_matches = MatchingResult.query.filter_by(status='matched').count()
+        # Successful matches: treat any MatchingResult as a match (adjust if status column differs)
+        successful_matches = MatchingResult.query.count()
         emails_sent = EmailTracking.query.filter_by(status='sent').count()
-        pending_emails = EmailTracking.query.filter_by(status='pending').count()
-        
+        pending_emails = EmailTracking.query.filter(EmailTracking.status.in_(['pending','drafted'])).count()
+
+        # Last analysis run time inferred from latest MatchingBatch or output file timestamps
+        from app.models import MatchingBatch
+        latest_batch = MatchingBatch.query.order_by(desc(MatchingBatch.created_at)).first()
+        last_analysis_time = None
+        if latest_batch:
+            last_analysis_time = latest_batch.created_at.isoformat()
+        else:
+            # Fallback: check Output/Matching_Summary.csv mtime
+            output_csv = os.path.join(os.getcwd(), 'Output', 'Matching_Summary.csv')
+            if os.path.exists(output_csv):
+                last_analysis_time = datetime.fromtimestamp(os.path.getmtime(output_csv)).isoformat()
+
         stats = {
             'total_registrations': total_registrations,
             'successful_matches': successful_matches,
             'emails_sent': emails_sent,
-            'pending_emails': pending_emails
+            'pending_emails': pending_emails,
+            'last_analysis_time': last_analysis_time
         }
         
         return jsonify({
@@ -35,6 +52,51 @@ def dashboard_stats():
             'success': False,
             'message': f'Error fetching dashboard stats: {str(e)}'
         }), 500
+
+@api.route('/activity')
+def recent_activity():
+    """Return recent activity (files, matches, emails) as JSON."""
+    try:
+        activities = []
+
+        # File uploads
+        uploads = FileUpload.query.order_by(desc(FileUpload.upload_date)).limit(5).all()
+        for u in uploads:
+            activities.append({
+                'type': 'file_upload',
+                'timestamp': u.upload_date.isoformat() if u.upload_date else None,
+                'message': f"Uploaded {u.file_type} file: {u.original_filename}",
+                'status': 'success'
+            })
+
+        # Matches
+        matches = MatchingResult.query.order_by(desc(MatchingResult.created_at)).limit(5).all()
+        for m in matches:
+            try:
+                activities.append({
+                    'type': 'matching',
+                    'timestamp': m.created_at.isoformat() if m.created_at else None,
+                    'message': f"Matched {m.registration.first_name} {m.registration.last_name} to {m.charity.organization}",
+                    'status': 'success'
+                })
+            except Exception:
+                pass
+
+        # Emails
+        emails = EmailTracking.query.order_by(desc(EmailTracking.created_at)).limit(5).all()
+        for em in emails:
+            activities.append({
+                'type': 'email',
+                'timestamp': em.created_at.isoformat() if em.created_at else None,
+                'message': f"Email for {em.recipient_name or em.recipient_email}",
+                'status': em.status
+            })
+
+        # Sort combined
+        activities.sort(key=lambda x: x['timestamp'] or '', reverse=True)
+        return jsonify({'success': True, 'activities': activities[:15]})
+    except Exception as e:
+        return jsonify({'success': False, 'message': f'Error fetching activity: {str(e)}'}), 500
 
 @api.route('/system/refresh', methods=['POST'])
 def system_refresh():

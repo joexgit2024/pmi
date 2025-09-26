@@ -81,8 +81,11 @@ function initializeDashboard() {
     // Dashboard-specific initialization
     console.log('Dashboard initialized');
     
-    // Auto-refresh statistics every 5 minutes
-    setInterval(refreshDashboardStats, 300000);
+    // Kick off immediate stats refresh then poll
+    try { refreshDashboardStats(); } catch(e) {}
+    setInterval(refreshDashboardStats, 300000); // 5 min existing
+    // Extra light polling for activity badge (every 60s)
+    setInterval(refreshDashboardStats, 60000);
 }
 
 function initializeUpload() {
@@ -175,15 +178,14 @@ function refreshSystem() {
 function refreshDashboardStats() {
     // Refresh dashboard statistics without showing loading
     fetch('/api/dashboard/stats')
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            updateDashboardStats(data.stats);
-        }
-    })
-    .catch(error => {
-        console.error('Error refreshing dashboard stats:', error);
-    });
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                updateDashboardStats(data.stats);
+                updateLastAnalysisBadge(data.stats.last_analysis_time);
+            }
+        })
+        .catch(error => console.error('Error refreshing dashboard stats:', error));
 }
 
 function updateDashboardStats(stats) {
@@ -200,6 +202,29 @@ function updateDashboardStats(stats) {
             animateCounter(element, parseInt(element.textContent) || 0, stats[key]);
         }
     }
+}
+
+function updateLastAnalysisBadge(isoTime) {
+    const badge = document.getElementById('lastAnalysisBadge');
+    if (!badge) return;
+    if (!isoTime) {
+        badge.style.display = 'none';
+        return;
+    }
+    const dt = new Date(isoTime);
+    if (isNaN(dt.getTime())) return;
+    const now = new Date();
+    const diffMin = Math.round((now - dt)/60000);
+    let rel;
+    if (diffMin < 1) rel = 'just now';
+    else if (diffMin < 60) rel = diffMin + 'm ago';
+    else {
+        const hrs = Math.floor(diffMin/60);
+        rel = hrs + 'h ' + (diffMin%60) + 'm ago';
+    }
+    badge.textContent = 'Last analysis: ' + rel;
+    badge.title = dt.toLocaleString();
+    badge.style.display = 'inline-block';
 }
 
 function animateCounter(element, startValue, endValue, duration = 1000) {
