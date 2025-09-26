@@ -28,18 +28,49 @@ Output Files Generated:
 
 import pandas as pd
 import os
+import sys
 from datetime import datetime
 
 
+def _safe_console_print(text: str):
+    """Print to console in a way that won't crash on Windows code pages.
+
+    If the active console encoding (e.g. cp1252) can't represent certain
+    Unicode characters (✓, 🎉, ✅, etc.), we fall back to an ASCII-safe
+    version by stripping or replacing those characters. This prevents
+    UnicodeEncodeError that previously aborted the analysis pipeline.
+    """
+    try:
+        print(text)
+    except UnicodeEncodeError:
+        # Replace known symbols with ASCII approximations and drop the rest
+        replacements = {
+            '✓': '[OK]',
+            '✅': '[OK]',
+            '🎉': '*',
+            '➤': '>',
+            '–': '-',
+            '—': '-',
+        }
+        sanitized = ''.join(replacements.get(ch, ch) for ch in text)
+        try:
+            # Final defensive encode/decode cycle
+            sanitized.encode(sys.stdout.encoding or 'ascii', errors='ignore')
+            print(sanitized)
+        except Exception:
+            # Last resort: ASCII only
+            print(sanitized.encode('ascii', errors='ignore').decode('ascii'))
+
+
 def log_message(message, log_file="Output/analysis_log.txt"):
-    """Log messages to both console and file"""
+    """Log messages to both console and UTF-8 file without crashing on Unicode."""
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     log_entry = f"[{timestamp}] {message}"
-    print(log_entry)
-    
+    _safe_console_print(log_entry)
+
     # Ensure Output directory exists
     os.makedirs("Output", exist_ok=True)
-    
+
     with open(log_file, "a", encoding="utf-8") as f:
         f.write(log_entry + "\n")
 
@@ -356,17 +387,17 @@ def main():
     # Check for flexible assignment flag
     use_flexible = '--flexible' in sys.argv or '-f' in sys.argv
     
-    print("=" * 70)
+    _safe_console_print("=" * 70)
     if use_flexible:
-        print("PMP-CHARITY FLEXIBLE MATCHING COMPLETE ANALYSIS PIPELINE")
-        print("(All 22 PMPs assigned to projects - some projects get 3+ PMPs)")
+        _safe_console_print("PMP-CHARITY FLEXIBLE MATCHING COMPLETE ANALYSIS PIPELINE")
+        _safe_console_print("(All PMPs assigned to projects - some projects may get 3+ PMPs)")
     else:
-        print("PMP-CHARITY STANDARD MATCHING COMPLETE ANALYSIS PIPELINE")
-        print("(Standard 2 PMPs per charity assignment)")
-    print("=" * 70)
-    print("This script will run the complete analysis when input files change.")
-    print("Input files expected in 'input/' directory.")
-    print("=" * 70)
+        _safe_console_print("PMP-CHARITY STANDARD MATCHING COMPLETE ANALYSIS PIPELINE")
+        _safe_console_print("(Standard 2 PMPs per charity assignment)")
+    _safe_console_print("=" * 70)
+    _safe_console_print("This script will run the complete analysis when input files change.")
+    _safe_console_print("Input files expected in 'input/' directory.")
+    _safe_console_print("=" * 70)
     
     # Clean up old files
     cleanup_old_outputs()
@@ -408,11 +439,11 @@ def main():
     log_message("  5. analysis_log.txt - Detailed processing log")
     log_message("=" * 50)
     
-    print("\n" + "=" * 70)
-    print("✅ ANALYSIS COMPLETE!")
-    print("Check the generated Excel files for detailed results.")
-    print("Check Output/Analysis_Summary.txt for a quick overview.")
-    print("=" * 70)
+    _safe_console_print("\n" + "=" * 70)
+    _safe_console_print("ANALYSIS COMPLETE!")
+    _safe_console_print("Check the generated Excel files for detailed results.")
+    _safe_console_print("Check Output/Analysis_Summary.txt for a quick overview.")
+    _safe_console_print("=" * 70)
     
     return True
 

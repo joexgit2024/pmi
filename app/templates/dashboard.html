@@ -22,7 +22,7 @@
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                             Total Registrations
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                        <div class="h5 mb-0 font-weight-bold text-gray-800" data-stat="total_registrations">
                             {{ stats.total_registrations }}
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                             Successful Matches
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                        <div class="h5 mb-0 font-weight-bold text-gray-800" data-stat="successful_matches">
                             {{ stats.successful_matches }}
                         </div>
                     </div>
@@ -62,7 +62,7 @@
                         <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
                             Emails Sent
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                        <div class="h5 mb-0 font-weight-bold text-gray-800" data-stat="emails_sent">
                             {{ stats.emails_sent }}
                         </div>
                     </div>
@@ -82,7 +82,7 @@
                         <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                             Pending Actions
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                        <div class="h5 mb-0 font-weight-bold text-gray-800" data-stat="pending_emails">
                             {{ stats.pending_emails }}
                         </div>
                     </div>
@@ -265,10 +265,21 @@
             .then(data => {
                 hideLoading();
                 if (data.success) {
-                    showAlert('Matching process started successfully!', 'success');
-                    setTimeout(() => location.reload(), 2000);
+                    showAlert('Matching completed successfully.', 'success');
+                    // Refresh stats & recent activity instead of full page reload
+                    if (typeof refreshDashboardStats === 'function') {
+                        refreshDashboardStats();
+                    }
+                    refreshRecentActivity();
                 } else {
-                    showAlert('Error starting matching process: ' + data.message, 'error');
+                    let details = '';
+                    if (data.stderr) {
+                        details += '<details class=\'mt-2\'><summary>Details (stderr)</summary><pre class=\'small mb-0\'>' + escapeHtml(truncateText(data.stderr, 4000)) + '</pre></details>';
+                    }
+                    if (data.stdout) {
+                        details += '<details class=\'mt-2\'><summary>Log Output (stdout)</summary><pre class=\'small mb-0\'>' + escapeHtml(truncateText(data.stdout, 4000)) + '</pre></details>';
+                    }
+                    showAlert('Matching failed: ' + escapeHtml(data.message || 'Unknown error') + details, 'error', 0);
                 }
             })
             .catch(error => {
@@ -292,10 +303,10 @@
             .then(data => {
                 hideLoading();
                 if (data.success) {
-                    showAlert('Email generation started successfully!', 'success');
-                    setTimeout(() => location.reload(), 2000);
+                    showAlert('Email drafts generated.', 'success');
+                    refreshRecentActivity();
                 } else {
-                    showAlert('Error generating emails: ' + data.message, 'error');
+                    showAlert('Error generating emails: ' + escapeHtml(data.message), 'error');
                 }
             })
             .catch(error => {
@@ -306,11 +317,26 @@
     }
     
     // Auto-refresh dashboard every 30 seconds
-    setInterval(() => {
-        htmx.ajax('GET', window.location.href, {
-            target: '#recentActivityTable tbody',
-            select: '#recentActivityTable tbody'
-        });
-    }, 30000);
+    function refreshRecentActivity() {
+        // Fetch only the recent activity table via a small JSON endpoint (to add later) or fallback to full page slice
+        fetch(window.location.href, { headers: { 'X-Requested-With': 'XMLHttpRequest' }})
+            .then(r => r.text())
+            .then(html => {
+                // Parse and extract the tbody from the returned HTML
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newBody = doc.querySelector('#recentActivityTable tbody');
+                const currentBody = document.querySelector('#recentActivityTable tbody');
+                if (newBody && currentBody) {
+                    currentBody.innerHTML = newBody.innerHTML;
+                }
+            })
+            .catch(()=>{});
+    }
+    setInterval(refreshRecentActivity, 30000);
+    
+    // Utility helpers injected locally (fallback if not in main.js yet)
+    function truncateText(txt, max) { return txt && txt.length > max ? txt.slice(0, max) + '... (truncated)' : (txt || ''); }
+    function escapeHtml(str){ return (str||'').replace(/[&<>"']/g, function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c];}); }
 </script>
 {% endblock %}
