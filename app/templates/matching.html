@@ -1,0 +1,519 @@
+{% extends "base.html" %}
+
+{% block title %}Charity Matching - PMI PMDoS System{% endblock %}
+
+{% block extra_css %}
+<style>
+    .border-left-primary {
+        border-left: 0.25rem solid #4e73df !important;
+    }
+    
+    .border-left-success {
+        border-left: 0.25rem solid #1cc88a !important;
+    }
+    
+    .border-left-info {
+        border-left: 0.25rem solid #36b9cc !important;
+    }
+    
+    .border-left-warning {
+        border-left: 0.25rem solid #f6c23e !important;
+    }
+    
+    .border-left-danger {
+        border-left: 0.25rem solid #e74a3b !important;
+    }
+    
+    .text-gray-800 {
+        color: #5a5c69 !important;
+    }
+    
+    .match-card {
+        border: 1px solid #e3e6f0;
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 10px;
+        background: white;
+        transition: all 0.3s ease;
+    }
+    
+    .match-card:hover {
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="h3 mb-4">
+            <i class="bi bi-link-45deg"></i>
+            Charity Matching System
+        </h1>
+    </div>
+</div>
+
+<!-- Matching Instructions -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="alert alert-info" role="alert">
+            <h5><i class="bi bi-info-circle"></i> Matching Process</h5>
+            <ul class="mb-0">
+                <li><strong>Automatic Matching:</strong> System matches volunteers to charities based on LinkedIn profiles and preferences</li>
+                <li><strong>Manual Review:</strong> Review and approve suggested matches before finalizing</li>
+                <li><strong>Batch Processing:</strong> Run matching for all unmatched registrations</li>
+                <li><strong>Export Results:</strong> Download matching results for email campaigns</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Statistics Cards -->
+<div class="row mb-4">
+    <div class="col-xl-2 col-md-4 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Total Matches
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            {{ stats.total_matches or 0 }}
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="bi bi-link text-primary" style="font-size: 2rem;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-2 col-md-4 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                            Successful
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            {{ stats.successful_matches or 0 }}
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="bi bi-check-circle-fill text-success" style="font-size: 2rem;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-2 col-md-4 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                            Pending
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            {{ stats.pending_matches or 0 }}
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="bi bi-clock-fill text-warning" style="font-size: 2rem;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-2 col-md-4 mb-4">
+        <div class="card border-left-danger shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                            Failed
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            {{ stats.failed_matches or 0 }}
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="bi bi-x-circle-fill text-danger" style="font-size: 2rem;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-2 col-md-4 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                            Unmatched
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            {{ stats.unmatched_registrations or 0 }}
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="bi bi-person-x-fill text-info" style="font-size: 2rem;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-2 col-md-4 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Charities
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            {{ stats.available_charities or 0 }}
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="bi bi-heart-fill text-primary" style="font-size: 2rem;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Matching Actions -->
+    <div class="col-lg-4">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    <i class="bi bi-gear-fill"></i>
+                    Matching Actions
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-3">
+                    {% if stats.unmatched_registrations and stats.unmatched_registrations > 0 %}
+                    <button class="btn btn-primary btn-lg" onclick="runMatching()">
+                        <i class="bi bi-play-fill"></i>
+                        Run Matching Process
+                        <small class="d-block">{{ stats.unmatched_registrations }} unmatched registrations</small>
+                    </button>
+                    {% else %}
+                    <button class="btn btn-secondary btn-lg" disabled>
+                        <i class="bi bi-check-circle"></i>
+                        All Registrations Matched
+                    </button>
+                    {% endif %}
+                    
+                    <button class="btn btn-success btn-lg" onclick="exportResults()" 
+                            {% if not stats.successful_matches %}disabled{% endif %}>
+                        <i class="bi bi-download"></i>
+                        Export Matching Results
+                        {% if stats.successful_matches %}
+                        <small class="d-block">{{ stats.successful_matches }} matches ready</small>
+                        {% endif %}
+                    </button>
+                    
+                    <button class="btn btn-info btn-lg" onclick="reviewMatches()"
+                            {% if not stats.pending_matches %}disabled{% endif %}>
+                        <i class="bi bi-eye-fill"></i>
+                        Review Pending Matches
+                        {% if stats.pending_matches %}
+                        <small class="d-block">{{ stats.pending_matches }} awaiting review</small>
+                        {% endif %}
+                    </button>
+                    
+                    <button class="btn btn-warning btn-lg" onclick="retryFailed()"
+                            {% if not stats.failed_matches %}disabled{% endif %}>
+                        <i class="bi bi-arrow-clockwise"></i>
+                        Retry Failed Matches
+                        {% if stats.failed_matches %}
+                        <small class="d-block">{{ stats.failed_matches }} failed matches</small>
+                        {% endif %}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Matching Configuration -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    <i class="bi bi-sliders"></i>
+                    Matching Configuration
+                </h6>
+            </div>
+            <div class="card-body">
+                <form id="matchingConfigForm">
+                    <div class="mb-3">
+                        <label for="minMatchScore" class="form-label">Minimum Match Score</label>
+                        <input type="range" class="form-range" id="minMatchScore" min="0" max="100" value="70">
+                        <div class="d-flex justify-content-between">
+                            <span>0%</span>
+                            <span id="minMatchScoreValue">70%</span>
+                            <span>100%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="useLinkedIn" checked>
+                            <label class="form-check-label" for="useLinkedIn">
+                                Use LinkedIn Profile Matching
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="usePreferences" checked>
+                            <label class="form-check-label" for="usePreferences">
+                                Consider Volunteer Preferences
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="allowMultiple">
+                            <label class="form-check-label" for="allowMultiple">
+                                Allow Multiple Matches per Charity
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Matches -->
+    <div class="col-lg-8">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    <i class="bi bi-list-ul"></i>
+                    Recent Matching Results
+                </h6>
+            </div>
+            <div class="card-body">
+                {% if recent_matches %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Volunteer</th>
+                                <th>Charity</th>
+                                <th>Score</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for match in recent_matches %}
+                            <tr>
+                                <td>
+                                    <small class="text-muted">
+                                        {{ match.created_at.strftime('%m/%d/%Y %H:%M') }}
+                                    </small>
+                                </td>
+                                <td>
+                                    {% if match.status == 'matched' %}
+                                        <span class="badge bg-success">Matched</span>
+                                    {% elif match.status == 'pending' %}
+                                        <span class="badge bg-warning">Pending</span>
+                                    {% elif match.status == 'failed' %}
+                                        <span class="badge bg-danger">Failed</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">{{ match.status.title() }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="fw-bold">{{ match.registration.full_name if match.registration else 'N/A' }}</div>
+                                    <small class="text-muted">{{ match.registration.email if match.registration else '' }}</small>
+                                </td>
+                                <td>
+                                    <div class="fw-bold">{{ match.charity.organization if match.charity else 'N/A' }}</div>
+                                    <small class="text-muted">{{ match.charity.website if match.charity else '' }}</small>
+                                </td>
+                                <td>
+                                    {% if match.match_score %}
+                                    <div class="progress" style="height: 20px;">
+                                        <div class="progress-bar 
+                                                    {% if match.match_score >= 80 %}bg-success
+                                                    {% elif match.match_score >= 60 %}bg-warning
+                                                    {% else %}bg-danger{% endif %}" 
+                                             role="progressbar" 
+                                             style="width: {{ match.match_score }}%">
+                                            {{ "%.1f"|format(match.match_score) }}%
+                                        </div>
+                                    </div>
+                                    {% else %}
+                                    <span class="text-muted">N/A</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <button class="btn btn-outline-info" onclick="viewMatch({{ match.id }})" title="View Details">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        {% if match.status == 'pending' %}
+                                        <button class="btn btn-outline-success" onclick="approveMatch({{ match.id }})" title="Approve">
+                                            <i class="bi bi-check"></i>
+                                        </button>
+                                        <button class="btn btn-outline-danger" onclick="rejectMatch({{ match.id }})" title="Reject">
+                                            <i class="bi bi-x"></i>
+                                        </button>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="bi bi-inbox text-muted" style="font-size: 3rem;"></i>
+                    <h5 class="mt-3 text-muted">No Matching Results Yet</h5>
+                    <p class="text-muted">Upload registration and charity files, then run the matching process to see results here.</p>
+                    <a href="{{ url_for('upload.index') }}" class="btn btn-primary">
+                        <i class="bi bi-cloud-upload"></i>
+                        Upload Files
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Progress Modal -->
+<div class="modal fade" id="progressModal" tabindex="-1" aria-labelledby="progressModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="progressModalLabel">
+                    <i class="bi bi-gear-fill"></i>
+                    Processing Matches
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div class="progress mb-3">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                         role="progressbar" style="width: 0%" id="matchingProgress"></div>
+                </div>
+                <div id="progressMessage">Initializing matching process...</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Update range slider display
+document.getElementById('minMatchScore').addEventListener('input', function() {
+    document.getElementById('minMatchScoreValue').textContent = this.value + '%';
+});
+
+// Matching functions
+function runMatching() {
+    const modal = new bootstrap.Modal(document.getElementById('progressModal'));
+    modal.show();
+    
+    // Get configuration
+    const config = {
+        minMatchScore: document.getElementById('minMatchScore').value,
+        useLinkedIn: document.getElementById('useLinkedIn').checked,
+        usePreferences: document.getElementById('usePreferences').checked,
+        allowMultiple: document.getElementById('allowMultiple').checked
+    };
+    
+    // Start matching process
+    fetch('/matching/run', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(config)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Poll for progress
+            pollMatchingProgress(data.batch_id);
+        } else {
+            alert('Error starting matching process: ' + data.message);
+            modal.hide();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error starting matching process');
+        modal.hide();
+    });
+}
+
+function pollMatchingProgress(batchId) {
+    // Implementation for polling progress
+    // This would check the matching batch status periodically
+}
+
+function exportResults() {
+    window.location.href = '/matching/export';
+}
+
+function reviewMatches() {
+    // Implementation for reviewing matches
+    alert('Review functionality coming soon!');
+}
+
+function retryFailed() {
+    // Implementation for retrying failed matches
+    alert('Retry functionality coming soon!');
+}
+
+function viewMatch(matchId) {
+    // Implementation for viewing match details
+    alert('View match details: ' + matchId);
+}
+
+function approveMatch(matchId) {
+    if (confirm('Approve this match?')) {
+        fetch('/matching/approve/' + matchId, {method: 'POST'})
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert('Error approving match: ' + data.message);
+                }
+            });
+    }
+}
+
+function rejectMatch(matchId) {
+    if (confirm('Reject this match?')) {
+        fetch('/matching/reject/' + matchId, {method: 'POST'})
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert('Error rejecting match: ' + data.message);
+                }
+            });
+    }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,462 @@
+{% extends "base.html" %}
+
+{% block title %}File Upload - PMI PMDoS System{% endblock %}
+
+{% block head %}
+<style>
+    .drop-zone {
+        border: 3px dashed #007bff;
+        border-radius: 10px;
+        padding: 60px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: #f8f9fa;
+        min-height: 200px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .drop-zone:hover, .drop-zone.dragover {
+        border-color: #0056b3;
+        background: #e3f2fd;
+        transform: translateY(-2px);
+    }
+    
+    .drop-zone.dragover {
+        border-color: #28a745;
+        background: #d4edda;
+    }
+    
+    .file-input-hidden {
+        display: none;
+    }
+    
+    .upload-icon {
+        font-size: 4rem;
+        color: #007bff;
+        margin-bottom: 1rem;
+    }
+    
+    .file-list {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+    
+    .file-item {
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 10px;
+        background: white;
+        transition: all 0.3s ease;
+    }
+    
+    .file-item:hover {
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .progress-container {
+        margin-top: 10px;
+    }
+    
+    .file-actions {
+        margin-top: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="h3 mb-4">
+            <i class="bi bi-cloud-upload"></i>
+            File Upload Manager
+        </h1>
+    </div>
+</div>
+
+<!-- Upload Instructions -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="alert alert-info" role="alert">
+            <h5><i class="bi bi-info-circle"></i> Upload Instructions</h5>
+            <ul class="mb-0">
+                <li><strong>Registration Files:</strong> Upload the latest PMI registration response files (.xlsx, .csv)</li>
+                <li><strong>Charity Files:</strong> Upload charity problem statement files (.xlsx, .csv)</li>
+                <li><strong>File Size:</strong> Maximum 50MB per file</li>
+                <li><strong>Supported Formats:</strong> Excel (.xlsx), CSV (.csv)</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Upload Area -->
+    <div class="col-lg-8">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    <i class="bi bi-upload"></i>
+                    Upload New Files
+                </h6>
+            </div>
+            <div class="card-body">
+                <!-- Drag and Drop Zone -->
+                <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click();">
+                    <div class="upload-icon">
+                        <i class="bi bi-cloud-upload" id="uploadIcon"></i>
+                    </div>
+                    <h4 class="mb-3">Drag & Drop Files Here</h4>
+                    <p class="text-muted mb-3">or click to browse files</p>
+                    <button type="button" class="btn btn-primary">
+                        <i class="bi bi-folder2-open"></i>
+                        Browse Files
+                    </button>
+                </div>
+                
+                <!-- Hidden File Input -->
+                <input type="file" 
+                       id="fileInput" 
+                       class="file-input-hidden" 
+                       multiple 
+                       accept=".xlsx,.xls,.csv" 
+                       onchange="handleFileSelect(this.files)">
+                
+                <!-- File Type Selection -->
+                <div class="mt-4">
+                    <h6>File Type:</h6>
+                    <div class="btn-group" role="group" aria-label="File Type Selection">
+                        <input type="radio" class="btn-check" name="fileType" id="registration" value="registration" checked>
+                        <label class="btn btn-outline-primary" for="registration">
+                            <i class="bi bi-people"></i>
+                            Registration File
+                        </label>
+                        
+                        <input type="radio" class="btn-check" name="fileType" id="charity" value="charity">
+                        <label class="btn btn-outline-success" for="charity">
+                            <i class="bi bi-heart"></i>
+                            Charity File
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Selected Files -->
+        <div class="card shadow" id="selectedFilesCard" style="display: none;">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-success">
+                    <i class="bi bi-files"></i>
+                    Selected Files
+                </h6>
+            </div>
+            <div class="card-body">
+                <div id="fileList" class="file-list"></div>
+                <div class="mt-3">
+                    <button type="button" class="btn btn-success" onclick="uploadFiles()">
+                        <i class="bi bi-upload"></i>
+                        Upload All Files
+                    </button>
+                    <button type="button" class="btn btn-secondary ms-2" onclick="clearFiles()">
+                        <i class="bi bi-x-circle"></i>
+                        Clear All
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Recent Uploads -->
+    <div class="col-lg-4">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    <i class="bi bi-clock-history"></i>
+                    Recent Uploads
+                </h6>
+            </div>
+            <div class="card-body">
+                {% if recent_uploads %}
+                    {% for upload in recent_uploads %}
+                    <div class="d-flex justify-content-between align-items-center mb-3 p-2 border rounded">
+                        <div>
+                            <div class="fw-bold">{{ upload.original_filename }}</div>
+                            <small class="text-muted">
+                                {{ upload.upload_date.strftime('%m/%d/%Y %H:%M') }}
+                            </small>
+                            <br>
+                            <span class="badge bg-{{ 'primary' if upload.file_type == 'registration' else 'success' }}">
+                                {{ upload.file_type.title() }}
+                            </span>
+                        </div>
+                        <div>
+                            {% if upload.status == 'completed' %}
+                                <i class="bi bi-check-circle-fill text-success"></i>
+                            {% elif upload.status == 'processing' %}
+                                <i class="bi bi-clock text-warning"></i>
+                            {% else %}
+                                <i class="bi bi-x-circle-fill text-danger"></i>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted text-center">No recent uploads</p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Upload Statistics -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    <i class="bi bi-graph-up"></i>
+                    Upload Statistics
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-6">
+                        <div class="h4 text-primary">{{ upload_stats.total_files }}</div>
+                        <small class="text-muted">Total Files</small>
+                    </div>
+                    <div class="col-6">
+                        <div class="h4 text-success">{{ upload_stats.successful_uploads }}</div>
+                        <small class="text-muted">Successful</small>
+                    </div>
+                </div>
+                <hr>
+                <div class="row text-center">
+                    <div class="col-6">
+                        <div class="h5 text-info">{{ upload_stats.registration_files }}</div>
+                        <small class="text-muted">Registration</small>
+                    </div>
+                    <div class="col-6">
+                        <div class="h5 text-warning">{{ upload_stats.charity_files }}</div>
+                        <small class="text-muted">Charity</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Help & Guidelines -->
+        <div class="card shadow">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    <i class="bi bi-question-circle"></i>
+                    Help & Guidelines
+                </h6>
+            </div>
+            <div class="card-body">
+                <h6>File Requirements:</h6>
+                <ul class="small">
+                    <li>Excel (.xlsx) or CSV (.csv) format</li>
+                    <li>Maximum 50MB file size</li>
+                    <li>Valid data structure</li>
+                </ul>
+                
+                <h6>Registration Files Should Include:</h6>
+                <ul class="small">
+                    <li>Participant names</li>
+                    <li>Email addresses</li>
+                    <li>LinkedIn URLs</li>
+                    <li>Registration details</li>
+                </ul>
+                
+                <h6>Charity Files Should Include:</h6>
+                <ul class="small">
+                    <li>Charity names</li>
+                    <li>Problem statements</li>
+                    <li>Contact information</li>
+                    <li>Categories/tags</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let selectedFiles = [];
+    
+    // Drag and Drop functionality
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const uploadIcon = document.getElementById('uploadIcon');
+    
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, preventDefaults, false);
+        document.body.addEventListener(eventName, preventDefaults, false);
+    });
+    
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, highlight, false);
+    });
+    
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, unhighlight, false);
+    });
+    
+    dropZone.addEventListener('drop', handleDrop, false);
+    
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    
+    function highlight(e) {
+        dropZone.classList.add('dragover');
+        uploadIcon.className = 'bi bi-cloud-upload-fill';
+    }
+    
+    function unhighlight(e) {
+        dropZone.classList.remove('dragover');
+        uploadIcon.className = 'bi bi-cloud-upload';
+    }
+    
+    function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        handleFileSelect(files);
+    }
+    
+    function handleFileSelect(files) {
+        const validFiles = [];
+        const allowedTypes = [
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'application/vnd.ms-excel',
+            'text/csv'
+        ];
+        
+        Array.from(files).forEach(file => {
+            if (allowedTypes.includes(file.type) || file.name.match(/\.(xlsx|xls|csv)$/i)) {
+                if (file.size <= 50 * 1024 * 1024) { // 50MB limit
+                    validFiles.push(file);
+                } else {
+                    showAlert(`File "${file.name}" is too large. Maximum size is 50MB.`, 'warning');
+                }
+            } else {
+                showAlert(`File "${file.name}" is not a supported format.`, 'warning');
+            }
+        });
+        
+        if (validFiles.length > 0) {
+            selectedFiles = [...selectedFiles, ...validFiles];
+            updateFileList();
+            document.getElementById('selectedFilesCard').style.display = 'block';
+        }
+    }
+    
+    function updateFileList() {
+        const fileList = document.getElementById('fileList');
+        fileList.innerHTML = '';
+        
+        selectedFiles.forEach((file, index) => {
+            const fileItem = document.createElement('div');
+            fileItem.className = 'file-item';
+            fileItem.innerHTML = `
+                <div class="d-flex justify-content-between align-items-start">
+                    <div class="flex-grow-1">
+                        <div class="fw-bold">${file.name}</div>
+                        <small class="text-muted">
+                            ${(file.size / 1024 / 1024).toFixed(2)} MB • ${file.type || 'Unknown type'}
+                        </small>
+                        <div class="progress-container" id="progress-${index}" style="display: none;">
+                            <div class="progress mt-2" style="height: 5px;">
+                                <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-danger ms-2" onclick="removeFile(${index})">
+                        <i class="bi bi-x"></i>
+                    </button>
+                </div>
+            `;
+            fileList.appendChild(fileItem);
+        });
+    }
+    
+    function removeFile(index) {
+        selectedFiles.splice(index, 1);
+        updateFileList();
+        
+        if (selectedFiles.length === 0) {
+            document.getElementById('selectedFilesCard').style.display = 'none';
+        }
+    }
+    
+    function clearFiles() {
+        selectedFiles = [];
+        document.getElementById('selectedFilesCard').style.display = 'none';
+        fileInput.value = '';
+    }
+    
+    function uploadFiles() {
+        if (selectedFiles.length === 0) {
+            showAlert('Please select files to upload.', 'warning');
+            return;
+        }
+        
+        const fileType = document.querySelector('input[name="fileType"]:checked').value;
+        
+        selectedFiles.forEach((file, index) => {
+            uploadSingleFile(file, index, fileType);
+        });
+    }
+    
+    function uploadSingleFile(file, index, fileType) {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('file_type', fileType);
+        
+        const progressContainer = document.getElementById(`progress-${index}`);
+        const progressBar = progressContainer.querySelector('.progress-bar');
+        
+        progressContainer.style.display = 'block';
+        
+        const xhr = new XMLHttpRequest();
+        
+        xhr.upload.addEventListener('progress', (e) => {
+            if (e.lengthComputable) {
+                const percentComplete = (e.loaded / e.total) * 100;
+                progressBar.style.width = percentComplete + '%';
+            }
+        });
+        
+        xhr.addEventListener('load', () => {
+            if (xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                    progressBar.classList.add('bg-success');
+                    showAlert(`File "${file.name}" uploaded successfully!`, 'success');
+                } else {
+                    progressBar.classList.add('bg-danger');
+                    showAlert(`Error uploading "${file.name}": ${response.message}`, 'error');
+                }
+            } else {
+                progressBar.classList.add('bg-danger');
+                showAlert(`Error uploading "${file.name}"`, 'error');
+            }
+            
+            // Refresh the page after a short delay if all uploads are complete
+            setTimeout(() => {
+                if (index === selectedFiles.length - 1) {
+                    location.reload();
+                }
+            }, 1500);
+        });
+        
+        xhr.addEventListener('error', () => {
+            progressBar.classList.add('bg-danger');
+            showAlert(`Error uploading "${file.name}"`, 'error');
+        });
+        
+        xhr.open('POST', '/upload/');
+        xhr.send(formData);
+    }
+</script>
+{% endblock %}

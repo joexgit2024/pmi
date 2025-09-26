@@ -1,0 +1,316 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - PMI PMDoS System{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="h3 mb-4">
+            <i class="bi bi-speedometer2"></i>
+            System Dashboard
+        </h1>
+    </div>
+</div>
+
+<!-- Statistics Cards -->
+<div class="row mb-4">
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Total Registrations
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            {{ stats.total_registrations }}
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="bi bi-people-fill text-primary" style="font-size: 2rem;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                            Successful Matches
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            {{ stats.successful_matches }}
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="bi bi-check-circle-fill text-success" style="font-size: 2rem;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                            Emails Sent
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            {{ stats.emails_sent }}
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="bi bi-envelope-check-fill text-info" style="font-size: 2rem;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                            Pending Actions
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            {{ stats.pending_emails }}
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="bi bi-clock-fill text-warning" style="font-size: 2rem;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Activity and Quick Actions -->
+<div class="row">
+    <!-- Recent Activity -->
+    <div class="col-lg-8">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    <i class="bi bi-clock-history"></i>
+                    Recent Activity
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-borderless" id="recentActivityTable">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Action</th>
+                                <th>Details</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for activity in recent_activity %}
+                            <tr>
+                                <td>
+                                    <small class="text-muted">
+                                        {{ activity.timestamp.strftime('%m/%d %H:%M') }}
+                                    </small>
+                                </td>
+                                <td>
+                                    {% if activity.type == 'file_upload' %}
+                                        <i class="bi bi-cloud-upload text-info"></i>
+                                        File Upload
+                                    {% elif activity.type == 'matching' %}
+                                        <i class="bi bi-link-45deg text-success"></i>
+                                        Matching
+                                    {% elif activity.type == 'email' %}
+                                        <i class="bi bi-envelope text-primary"></i>
+                                        Email Sent
+                                    {% else %}
+                                        <i class="bi bi-gear text-secondary"></i>
+                                        System
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <small>{{ activity.message }}</small>
+                                </td>
+                                <td>
+                                    {% if activity.status == 'success' %}
+                                        <span class="badge bg-success">Success</span>
+                                    {% elif activity.status == 'error' %}
+                                        <span class="badge bg-danger">Error</span>
+                                    {% else %}
+                                        <span class="badge bg-warning">Processing</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="4" class="text-center text-muted py-4">
+                                    No recent activity found
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="col-lg-4">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    <i class="bi bi-lightning"></i>
+                    Quick Actions
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('upload.index') }}" class="btn btn-primary btn-icon-split">
+                        <span class="icon text-white-50">
+                            <i class="bi bi-cloud-upload"></i>
+                        </span>
+                        <span class="text">Upload Files</span>
+                    </a>
+                    
+                    <button class="btn btn-success btn-icon-split" onclick="runMatching()" 
+                            {% if stats.total_registrations == 0 %}disabled{% endif %}>
+                        <span class="icon text-white-50">
+                            <i class="bi bi-play-circle"></i>
+                        </span>
+                        <span class="text">Run Matching</span>
+                    </button>
+                    
+                    <button class="btn btn-info btn-icon-split" onclick="generateEmails()" 
+                            {% if stats.successful_matches == 0 %}disabled{% endif %}>
+                        <span class="icon text-white-50">
+                            <i class="bi bi-envelope"></i>
+                        </span>
+                        <span class="text">Generate Emails</span>
+                    </button>
+                    
+                    <hr>
+                    
+                    <a href="{{ url_for('main.status') }}" class="btn btn-outline-secondary btn-sm">
+                        <i class="bi bi-info-circle"></i>
+                        System Status
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Status -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    <i class="bi bi-cpu"></i>
+                    System Health
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <small class="form-label text-muted">Database Connection</small>
+                    <div class="progress" style="height: 10px;">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%"></div>
+                    </div>
+                    <small class="text-success">Connected</small>
+                </div>
+                
+                <div class="mb-3">
+                    <small class="form-label text-muted">File System</small>
+                    <div class="progress" style="height: 10px;">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%"></div>
+                    </div>
+                    <small class="text-success">Available</small>
+                </div>
+                
+                <div class="mb-3">
+                    <small class="form-label text-muted">Background Jobs</small>
+                    <div class="progress" style="height: 10px;">
+                        <div class="progress-bar bg-info" role="progressbar" style="width: 80%"></div>
+                    </div>
+                    <small class="text-info">Running</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function runMatching() {
+        if (confirm('Start the charity matching process? This may take a few minutes.')) {
+            showLoading();
+            
+            fetch('/api/matching/run', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                hideLoading();
+                if (data.success) {
+                    showAlert('Matching process started successfully!', 'success');
+                    setTimeout(() => location.reload(), 2000);
+                } else {
+                    showAlert('Error starting matching process: ' + data.message, 'error');
+                }
+            })
+            .catch(error => {
+                hideLoading();
+                showAlert('Error: ' + error.message, 'error');
+            });
+        }
+    }
+    
+    function generateEmails() {
+        if (confirm('Generate email drafts for all successful matches?')) {
+            showLoading();
+            
+            fetch('/api/email/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                hideLoading();
+                if (data.success) {
+                    showAlert('Email generation started successfully!', 'success');
+                    setTimeout(() => location.reload(), 2000);
+                } else {
+                    showAlert('Error generating emails: ' + data.message, 'error');
+                }
+            })
+            .catch(error => {
+                hideLoading();
+                showAlert('Error: ' + error.message, 'error');
+            });
+        }
+    }
+    
+    // Auto-refresh dashboard every 30 seconds
+    setInterval(() => {
+        htmx.ajax('GET', window.location.href, {
+            target: '#recentActivityTable tbody',
+            select: '#recentActivityTable tbody'
+        });
+    }, 30000);
+</script>
+{% endblock %}
