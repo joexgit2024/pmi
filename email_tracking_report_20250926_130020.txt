@@ -1,0 +1,15 @@
+PMI EMAIL TRACKING DETAILED REPORT\n==================================================\nGenerated: 2025-09-26 13:00:20\n\n
+EMAIL TRACKING SUMMARY REPORT
+============================
+Generated: 2025-09-26 13:00:20
+
+OVERALL STATISTICS:
+- Total emails sent: 34
+- Total batches: 2
+- First batch: 2025-09-26
+- Last batch: 2025-09-26
+
+BATCH DETAILS:
+- initial_batch_29: 29 emails on 2025-09-26 (folder: email_drafts)
+- batch_20250926_01: 5 emails on 2025-09-26 (folder: new_email_drafts/2025-09-26)
+\n\nDETAILED EMAIL LIST:\n------------------------------\nMaria Mainhardt - mainhardt.maria@gmail.com - 2025-09-26 - initial_batch_29\nNeha Purohit - neha_purohit08@outlook.com - 2025-09-26 - initial_batch_29\nMirna Alemadi - mirna.alemadi@gmail.com - 2025-09-26 - initial_batch_29\nDoris  Wang - doriswang313@gmail.com - 2025-09-26 - initial_batch_29\nYanika  Okaeva - okaevay@gmail.com - 2025-09-26 - initial_batch_29\nJauhar Janjua - jajanjua@gmail.com - 2025-09-26 - initial_batch_29\nIbrahim  Dani - ibrahimdani@hotmail.com - 2025-09-26 - initial_batch_29\nArvin Arikathota - arvinds.m5@gmail.com - 2025-09-26 - initial_batch_29\nHaryanni Masarip - haryanni.m@gmail.com - 2025-09-26 - initial_batch_29\nLaetitia Callegari - academicoutreach@pmisydney.org - 2025-09-26 - initial_batch_29\nNadun Dhanushka - nadunnc@gmail.com - 2025-09-26 - initial_batch_29\nSuresh  Reddy - reddysuresh27@gmail.com - 2025-09-26 - initial_batch_29\nDurita Sookharee - dsookharee@northrop.com.au - 2025-09-26 - initial_batch_29\nFrederick Xavier - freddie.rx@gmail.com - 2025-09-26 - initial_batch_29\nAbby Thakur Satyanarayan - abhilasha_thakur@yahoo.com - 2025-09-26 - initial_batch_29\nIndra Halim - indrahalimpm@gmail.com - 2025-09-26 - initial_batch_29\nShannon Blades - shannonleahblades@gmail.com - 2025-09-26 - initial_batch_29\nShreya  Shah - shreya.shah@student.unsw.edu.au - 2025-09-26 - initial_batch_29\nRyan Benedek - rbenedek21@gmail.com - 2025-09-26 - initial_batch_29\nJacqueline Shen - jacqueline.shen@blueyonder.com - 2025-09-26 - initial_batch_29\nNikki Gittins - ngittins@atlassian.com - 2025-09-26 - initial_batch_29\nPeter Harrison - pharris3@optusnet.com.au - 2025-09-26 - initial_batch_29\nAishwarya  Rajendran - aishwarya.rajendran2012@gmail.com - 2025-09-26 - initial_batch_29\nCarolina Abelha Melo - carolmelo.pm@gmail.com - 2025-09-26 - initial_batch_29\nIvonne Portocarrero - ivonne.portoc@gmail.com - 2025-09-26 - initial_batch_29\nRichard John - rda.john@gmail.com - 2025-09-26 - initial_batch_29\nSameh  Megally - samehtalat@yahoo.com - 2025-09-26 - initial_batch_29\nAchintya Hrishikesh - achintyah619@gmail.com - 2025-09-26 - initial_batch_29\nSuresh Reddy - reddyshailu24@gmail.com - 2025-09-26 - batch_20250926_01\nJulia Wright - jwright7@woolworths.com.au - 2025-09-26 - batch_20250926_01\nEmma  Voss - evoss@woolworths.com.au - 2025-09-26 - batch_20250926_01\nLindsey Norris - lnorris@woolworth.com.au - 2025-09-26 - batch_20250926_01\nHadi Ahmadi - mahmadi@woolworths.com.au - 2025-09-26 - batch_20250926_01\n

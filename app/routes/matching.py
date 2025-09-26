@@ -56,11 +56,18 @@ def index():
 def run_matching():
     """Run the charity matching process."""
     try:
+        # Get request data if any (for future config options)
+        request_data = request.get_json() if request.is_json else {}
+        
         # Import matching service
         from app.services.matching_service import MatchingService
         
         matching_service = MatchingService()
-        result = matching_service.run_matching()
+        
+        # Extract configuration options (for future use)
+        use_flexible = request_data.get('allowMultiple', False)
+        
+        result = matching_service.run_matching(use_flexible=use_flexible)
         
         if result['success']:
             flash(f"Matching completed successfully! {result['matched_count']} matches created.", 'success')

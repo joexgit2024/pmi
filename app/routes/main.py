@@ -84,19 +84,19 @@ def get_system_stats():
         },
         'charities': {
             'total': total_charities,
-            'available_positions': available_positions,
-            'assigned_positions': assigned_positions,
+            'available_positions': int(available_positions) if available_positions else 0,
+            'assigned_positions': int(assigned_positions) if assigned_positions else 0,
             'utilization_percentage': round((assigned_positions / available_positions * 100), 1) if available_positions > 0 else 0
         },
         'matching': {
             'total_matches': total_matches,
-            'avg_match_score': round(avg_match_score, 2)
+            'avg_match_score': round(float(avg_match_score), 2) if avg_match_score else 0
         },
         'emails': {
             'total': total_emails,
             'sent': emails_sent,
             'drafted': emails_drafted,
-            'pending': emails_drafted - emails_sent
+            'pending': max(0, emails_drafted - emails_sent)
         }
     }
 

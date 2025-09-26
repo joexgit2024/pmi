@@ -12,6 +12,18 @@ python run_complete_analysis.py
 - Matching summary CSV
 
 ---
+recommended work flow:
+# 1. Check what's new
+python email_manager.py status
+
+# 2. If new registrations exist, generate emails
+python email_manager.py generate
+
+# 3. Review generated emails in new_email_drafts/YYYY-MM-DD/ folder
+
+# 4. Generate report for record keeping
+python email_manager.py report
+
 
 ### **Need to Send Acknowledgment Emails?**
 ```bash
@@ -53,8 +65,8 @@ Quick overview of current situation.
 
 ## 📁 Output Locations
 
-- **Matching results:** Root folder (Excel files)
-- **Email drafts:** `new_email_drafts/[date]/` folder
+- **Matching results:** `Output/` folder (Excel files, CSV, summaries)
+- **Email drafts:** `new_email_drafts/[date]/` folder  
 - **Original emails:** `email_drafts/` folder (don't touch)
 
 ---
