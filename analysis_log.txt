@@ -1,40 +1,40 @@
-[2025-09-26 08:38:23] Cleaned up old output files: LinkedIn_Analysis_Report.xlsx, PMI_PMP_Charity_Matching_Results_Enhanced.xlsx, Matching_Summary.csv, analysis_log.txt
-[2025-09-26 08:38:23] Starting standard PMP-Charity matching analysis pipeline...
-[2025-09-26 08:38:23] Step 0: Validating input files...
-[2025-09-26 08:38:23] ✓ Found registration file: 2025 - PMI Sydney Chapter Project Management Day of Service (PMDoS) 2025 Professional Registration (Responses) 25092025.xlsx
-[2025-09-26 08:38:23] ✓ Found charity file: Charities Project Information 2025 (Responses).xlsx
-[2025-09-26 08:38:23] Step 1: Running LinkedIn Profile Analysis...
-[2025-09-26 08:38:23] Using registration file: 2025 - PMI Sydney Chapter Project Management Day of Service (PMDoS) 2025 Professional Registration (Responses) 25092025.xlsx
-[2025-09-26 08:38:23] ✓ LinkedIn analysis completed. Results saved to: LinkedIn_Analysis_Report.xlsx
-[2025-09-26 08:38:23]   LinkedIn Coverage: 24/33 PMPs (72.7%)
-[2025-09-26 08:38:23]   Average LinkedIn Quality: 6.5/10
-[2025-09-26 08:38:23] Step 2: Running Standard Enhanced PMP-Charity Matching (2 PMPs per charity)...
-[2025-09-26 08:38:23]   Using standard assignment (2 PMPs per charity)
-[2025-09-26 08:38:23] ✓ Enhanced matching completed. Results saved to: PMI_PMP_Charity_Matching_Results_Enhanced.xlsx
-[2025-09-26 08:38:23] ✓ Quick reference CSV saved to: Matching_Summary.csv
-[2025-09-26 08:38:23]   Total PMPs: 33
-[2025-09-26 08:38:23]   Total Charity Projects: 10
-[2025-09-26 08:38:23]   Total Matches Created: 20
-[2025-09-26 08:38:23]   Match Summary:
-[2025-09-26 08:38:23]     Legacy Club Services: ['Sameh  Megally ', 'Nikki Gittins'] (Scores: [93.02, 81.4])
-[2025-09-26 08:38:23]     Sir David Martin Foundation: ['Emma  Voss', 'Jauhar Janjua'] (Scores: [92.96, 91.11])
-[2025-09-26 08:38:23]     Drummoyne Community Centre Inc: ['Haryanni Masarip', 'Yanika  Okaeva '] (Scores: [90.0, 86.32])
-[2025-09-26 08:38:23]     MTC Future Ready: ['Hadi Ahmadi', 'Ibrahim  Dani '] (Scores: [89.66, 87.59])
-[2025-09-26 08:38:23]     Property Industry Foundation: ['Abby Thakur Satyanarayan', 'Indra Halim'] (Scores: [89.05, 82.86])
-[2025-09-26 08:38:23]     Cleaning Accountability Framework (CAF): ['Nadun Dhanushka', 'Julia Wright'] (Scores: [84.17, 81.67])
-[2025-09-26 08:38:23]     GFG Foundation: ['Maria Mainhardt', 'Shannon Blades'] (Scores: [83.64, 81.82])
-[2025-09-26 08:38:23]     Rev. Bill Crews Foundation: ['Doris  Wang', 'Frederick Xavier'] (Scores: [80.0, 79.09])
-[2025-09-26 08:38:23]     Total Environment Centre: ['Lindsey Norris', 'Arvin Arikathota'] (Scores: [77.39, 75.65])
-[2025-09-26 08:38:23]     Property Industry Foundation: ['Laetitia Callegari ', 'Ryan Benedek'] (Scores: [74.12, 71.18])
-[2025-09-26 08:38:23] Step 3: Generating Final Summary Report...
-[2025-09-26 08:38:23] ✓ Summary report generated: Analysis_Summary.txt
-[2025-09-26 08:38:23] ==================================================
-[2025-09-26 08:38:23] 🎉 COMPLETE ANALYSIS FINISHED SUCCESSFULLY!
-[2025-09-26 08:38:23] ==================================================
-[2025-09-26 08:38:23] Output files generated:
-[2025-09-26 08:38:23]   1. LinkedIn_Analysis_Report.xlsx - LinkedIn profile analysis
-[2025-09-26 08:38:23]   2. PMI_PMP_Charity_Matching_Results_Enhanced.xlsx - Complete matching results
-[2025-09-26 08:38:23]   3. Matching_Summary.csv - Quick reference CSV
-[2025-09-26 08:38:23]   4. Analysis_Summary.txt - Executive summary
-[2025-09-26 08:38:23]   5. analysis_log.txt - Detailed processing log
-[2025-09-26 08:38:23] ==================================================
+[2025-09-26 12:35:05] Cleaned up old output files: LinkedIn_Analysis_Report.xlsx, PMI_PMP_Charity_Matching_Results_Enhanced.xlsx, Matching_Summary.csv, analysis_log.txt
+[2025-09-26 12:35:05] Starting standard PMP-Charity matching analysis pipeline...
+[2025-09-26 12:35:05] Step 0: Validating input files...
+[2025-09-26 12:35:05] ✓ Found registration file: 2025 - PMI Sydney Chapter Project Management Day of Service (PMDoS) 2025 Professional Registration (Responses) 25092025.xlsx
+[2025-09-26 12:35:05] ✓ Found charity file: Charities Project Information 2025 (Responses).xlsx
+[2025-09-26 12:35:05] Step 1: Running LinkedIn Profile Analysis...
+[2025-09-26 12:35:05] Using registration file: 2025 - PMI Sydney Chapter Project Management Day of Service (PMDoS) 2025 Professional Registration (Responses) 25092025.xlsx
+[2025-09-26 12:35:05] ✓ LinkedIn analysis completed. Results saved to: LinkedIn_Analysis_Report.xlsx
+[2025-09-26 12:35:05]   LinkedIn Coverage: 24/33 PMPs (72.7%)
+[2025-09-26 12:35:05]   Average LinkedIn Quality: 6.5/10
+[2025-09-26 12:35:05] Step 2: Running Standard Enhanced PMP-Charity Matching (2 PMPs per charity)...
+[2025-09-26 12:35:05]   Using standard assignment (2 PMPs per charity)
+[2025-09-26 12:35:05] ✓ Enhanced matching completed. Results saved to: PMI_PMP_Charity_Matching_Results_Enhanced.xlsx
+[2025-09-26 12:35:05] ✓ Quick reference CSV saved to: Matching_Summary.csv
+[2025-09-26 12:35:05]   Total PMPs: 33
+[2025-09-26 12:35:05]   Total Charity Projects: 10
+[2025-09-26 12:35:05]   Total Matches Created: 20
+[2025-09-26 12:35:05]   Match Summary:
+[2025-09-26 12:35:05]     Legacy Club Services: ['Sameh  Megally ', 'Nikki Gittins'] (Scores: [93.02, 81.4])
+[2025-09-26 12:35:05]     Sir David Martin Foundation: ['Emma  Voss', 'Jauhar Janjua'] (Scores: [92.96, 91.11])
+[2025-09-26 12:35:05]     Drummoyne Community Centre Inc: ['Haryanni Masarip', 'Yanika  Okaeva '] (Scores: [90.0, 86.32])
+[2025-09-26 12:35:05]     MTC Future Ready: ['Hadi Ahmadi', 'Ibrahim  Dani '] (Scores: [89.66, 87.59])
+[2025-09-26 12:35:05]     Property Industry Foundation: ['Abby Thakur Satyanarayan', 'Indra Halim'] (Scores: [89.05, 82.86])
+[2025-09-26 12:35:05]     Cleaning Accountability Framework (CAF): ['Nadun Dhanushka', 'Julia Wright'] (Scores: [84.17, 81.67])
+[2025-09-26 12:35:05]     GFG Foundation: ['Maria Mainhardt', 'Shannon Blades'] (Scores: [83.64, 81.82])
+[2025-09-26 12:35:05]     Rev. Bill Crews Foundation: ['Doris  Wang', 'Frederick Xavier'] (Scores: [80.0, 79.09])
+[2025-09-26 12:35:05]     Total Environment Centre: ['Lindsey Norris', 'Arvin Arikathota'] (Scores: [77.39, 75.65])
+[2025-09-26 12:35:05]     Property Industry Foundation: ['Laetitia Callegari ', 'Ryan Benedek'] (Scores: [74.12, 71.18])
+[2025-09-26 12:35:05] Step 3: Generating Final Summary Report...
+[2025-09-26 12:35:05] ✓ Summary report generated: Analysis_Summary.txt
+[2025-09-26 12:35:05] ==================================================
+[2025-09-26 12:35:05] 🎉 COMPLETE ANALYSIS FINISHED SUCCESSFULLY!
+[2025-09-26 12:35:05] ==================================================
+[2025-09-26 12:35:05] Output files generated:
+[2025-09-26 12:35:05]   1. LinkedIn_Analysis_Report.xlsx - LinkedIn profile analysis
+[2025-09-26 12:35:05]   2. PMI_PMP_Charity_Matching_Results_Enhanced.xlsx - Complete matching results
+[2025-09-26 12:35:05]   3. Matching_Summary.csv - Quick reference CSV
+[2025-09-26 12:35:05]   4. Analysis_Summary.txt - Executive summary
+[2025-09-26 12:35:05]   5. analysis_log.txt - Detailed processing log
+[2025-09-26 12:35:05] ==================================================

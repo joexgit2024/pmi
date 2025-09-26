@@ -90,10 +90,10 @@ The system automatically generates:
 
 | File | Description |
 |------|-------------|
-| `LinkedIn_Analysis_Report.xlsx` | LinkedIn profile validation and quality scoring |
-| `PMI_PMP_Charity_Matching_Results_Enhanced.xlsx` | Complete matching results with detailed analysis |
-| `Matching_Summary.csv` | Quick reference spreadsheet |
-| `Analysis_Summary.txt` | Executive summary |
+| `Output/LinkedIn_Analysis_Report.xlsx` | LinkedIn profile validation and quality scoring |
+| `Output/PMI_PMP_Charity_Matching_Results_Enhanced.xlsx` | Complete matching results with detailed analysis |
+| `Output/Matching_Summary.csv` | Quick reference spreadsheet |
+| `Output/Analysis_Summary.txt` | Executive summary |
 | `analysis_log.txt` | Detailed processing log |
 
 ## � Matching Algorithm

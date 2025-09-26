@@ -31,11 +31,14 @@ import os
 from datetime import datetime
 
 
-def log_message(message, log_file="analysis_log.txt"):
+def log_message(message, log_file="Output/analysis_log.txt"):
     """Log messages to both console and file"""
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     log_entry = f"[{timestamp}] {message}"
     print(log_entry)
+    
+    # Ensure Output directory exists
+    os.makedirs("Output", exist_ok=True)
     
     with open(log_file, "a", encoding="utf-8") as f:
         f.write(log_entry + "\n")
@@ -95,7 +98,7 @@ def run_linkedin_analysis():
         linkedin_report = generate_linkedin_analysis_report(enhanced_profiles)
         
         # Save LinkedIn analysis results
-        output_file = "LinkedIn_Analysis_Report.xlsx"
+        output_file = "Output/LinkedIn_Analysis_Report.xlsx"
         with pd.ExcelWriter(output_file, engine='xlsxwriter') as writer:
             validation_df.to_excel(writer, sheet_name='URL_Validation', index=False)
             linkedin_report.to_excel(writer, sheet_name='LinkedIn_Analysis', index=False)
@@ -165,14 +168,14 @@ def run_enhanced_matching(use_flexible_assignment=False):
         if use_flexible_assignment:
             final_matches, assigned_charities = create_flexible_matching(pmp_profiles, charity_projects)
             matching_summary = generate_flexible_matching_report(final_matches, assigned_charities)
-            output_file = 'PMI_PMP_Charity_Flexible_Matching_Results.xlsx'
+            output_file = 'Output/PMI_PMP_Charity_Flexible_Matching_Results.xlsx'
             sheet_name = 'Flexible_Matching'
             log_message("  Using flexible assignment (all PMPs assigned)")
         else:
             final_matches, assigned_charities = create_optimal_matching(pmp_profiles, charity_projects)
             matching_summary = generate_matching_report(final_matches, assigned_charities)
             detailed_analysis = create_detailed_analysis(pmp_profiles, charity_projects, final_matches)
-            output_file = 'PMI_PMP_Charity_Matching_Results_Enhanced.xlsx'
+            output_file = 'Output/PMI_PMP_Charity_Matching_Results_Enhanced.xlsx'
             sheet_name = 'Enhanced_Matching_Summary'
             log_message("  Using standard assignment (2 PMPs per charity)")
         
@@ -239,10 +242,10 @@ def run_enhanced_matching(use_flexible_assignment=False):
         matching_summary_csv = matching_summary[['Charity_Organization', 'Charity_Initiative', 
                                                'PMP_Name', 'Match_Score', 'LinkedIn_Quality',
                                                'PMP_Experience']].copy()
-        matching_summary_csv.to_csv('Matching_Summary.csv', index=False)
+        matching_summary_csv.to_csv('Output/Matching_Summary.csv', index=False)
         
         log_message(f"✓ Enhanced matching completed. Results saved to: {output_file}")
-        log_message(f"✓ Quick reference CSV saved to: Matching_Summary.csv")
+        log_message(f"✓ Quick reference CSV saved to: Output/Matching_Summary.csv")
         log_message(f"  Total PMPs: {len(pmp_profiles)}")
         log_message(f"  Total Charity Projects: {len(charity_projects)}")
         log_message(f"  Total Matches Created: {len(final_matches)}")
@@ -264,11 +267,14 @@ def run_enhanced_matching(use_flexible_assignment=False):
 
 def cleanup_old_outputs():
     """Clean up old output files before running new analysis"""
+    # Ensure Output directory exists
+    os.makedirs("Output", exist_ok=True)
+    
     output_files = [
-        "LinkedIn_Analysis_Report.xlsx",
-        "PMI_PMP_Charity_Matching_Results_Enhanced.xlsx",
-        "Matching_Summary.csv",
-        "analysis_log.txt"
+        "Output/LinkedIn_Analysis_Report.xlsx",
+        "Output/PMI_PMP_Charity_Matching_Results_Enhanced.xlsx",
+        "Output/Matching_Summary.csv",
+        "Output/analysis_log.txt"
     ]
     
     cleaned = []
@@ -290,15 +296,15 @@ def generate_summary_report():
     
     try:
         # Read the generated files to create a summary
-        if os.path.exists("LinkedIn_Analysis_Report.xlsx"):
-            linkedin_df = pd.read_excel("LinkedIn_Analysis_Report.xlsx", sheet_name="Summary")
+        if os.path.exists("Output/LinkedIn_Analysis_Report.xlsx"):
+            linkedin_df = pd.read_excel("Output/LinkedIn_Analysis_Report.xlsx", sheet_name="Summary")
             
-        if os.path.exists("PMI_PMP_Charity_Matching_Results_Enhanced.xlsx"):
-            matching_df = pd.read_excel("PMI_PMP_Charity_Matching_Results_Enhanced.xlsx", 
+        if os.path.exists("Output/PMI_PMP_Charity_Matching_Results_Enhanced.xlsx"):
+            matching_df = pd.read_excel("Output/PMI_PMP_Charity_Matching_Results_Enhanced.xlsx", 
                                       sheet_name="Enhanced_Matching_Summary")
         
         # Create a summary text file
-        with open("Analysis_Summary.txt", "w", encoding="utf-8") as f:
+        with open("Output/Analysis_Summary.txt", "w", encoding="utf-8") as f:
             f.write("PMP-CHARITY MATCHING ANALYSIS SUMMARY\n")
             f.write("=" * 50 + "\n")
             f.write(f"Analysis completed on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
@@ -326,7 +332,7 @@ def generate_summary_report():
                     f.write(f"{match['Charity_Organization']} ← {match['PMP_Name']} "
                            f"(Score: {match['Match_Score']:.2f})\n")
         
-        log_message("✓ Summary report generated: Analysis_Summary.txt")
+        log_message("✓ Summary report generated: Output/Analysis_Summary.txt")
         return True
         
     except Exception as e:
@@ -395,17 +401,17 @@ def main():
     log_message("🎉 COMPLETE ANALYSIS FINISHED SUCCESSFULLY!")
     log_message("=" * 50)
     log_message("Output files generated:")
-    log_message("  1. LinkedIn_Analysis_Report.xlsx - LinkedIn profile analysis")
-    log_message("  2. PMI_PMP_Charity_Matching_Results_Enhanced.xlsx - Complete matching results")
-    log_message("  3. Matching_Summary.csv - Quick reference CSV")
-    log_message("  4. Analysis_Summary.txt - Executive summary")
+    log_message("  1. Output/LinkedIn_Analysis_Report.xlsx - LinkedIn profile analysis")
+    log_message("  2. Output/PMI_PMP_Charity_Matching_Results_Enhanced.xlsx - Complete matching results")
+    log_message("  3. Output/Matching_Summary.csv - Quick reference CSV")
+    log_message("  4. Output/Analysis_Summary.txt - Executive summary")
     log_message("  5. analysis_log.txt - Detailed processing log")
     log_message("=" * 50)
     
     print("\n" + "=" * 70)
     print("✅ ANALYSIS COMPLETE!")
     print("Check the generated Excel files for detailed results.")
-    print("Check Analysis_Summary.txt for a quick overview.")
+    print("Check Output/Analysis_Summary.txt for a quick overview.")
     print("=" * 70)
     
     return True
