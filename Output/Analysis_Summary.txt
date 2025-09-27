@@ -1,6 +1,6 @@
 PMP-CHARITY MATCHING ANALYSIS SUMMARY
 ==================================================
-Analysis completed on: 2025-09-27 11:22:40
+Analysis completed on: 2025-09-27 12:56:50
 
 LINKEDIN ANALYSIS RESULTS:
 ------------------------------
@@ -15,7 +15,7 @@ MATCHING RESULTS SUMMARY:
 Total matches created: 20
 Charities matched: 9
 PMPs assigned: 20
-Average match score: 83.41
+Average match score: 83.38
 Average LinkedIn quality: 7.4/10
 
 TOP 5 MATCHES BY SCORE:

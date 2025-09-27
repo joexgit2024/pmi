@@ -196,7 +196,7 @@ def run_linkedin_analysis():
                 sheet_name='LinkedIn_Analysis',
                 index=False
             )
-            
+
             # Summary statistics
             summary_rows = [
                 ['Total PMPs', total_pmp],
@@ -239,26 +239,20 @@ def run_enhanced_matching(use_flexible_assignment=False):
         log_message("  Mode: Two PMPs per charity")
     
     try:
+        from enhanced_pmp_charity_matching import (
+            load_and_process_data,
+            extract_pmp_skills,
+            analyze_charity_requirements,
+            categorize_pmp_candidates,
+            create_optimal_matching,
+            generate_matching_report,
+            create_detailed_analysis
+        )
+
         if use_flexible_assignment:
-            # Import flexible assignment functions
             from flexible_pmp_assignment import (
                 create_flexible_matching,
                 generate_flexible_matching_report
-            )
-            from enhanced_pmp_charity_matching import (
-                load_and_process_data,
-                extract_pmp_skills,
-                analyze_charity_requirements
-            )
-        else:
-            # Import the standard enhanced matching functions
-            from enhanced_pmp_charity_matching import (
-                load_and_process_data,
-                extract_pmp_skills,
-                analyze_charity_requirements,
-                create_optimal_matching,
-                generate_matching_report,
-                create_detailed_analysis
             )
         
         # Load and process data
@@ -274,15 +268,82 @@ def run_enhanced_matching(use_flexible_assignment=False):
 
         # Extract enhanced PMP skills
         pmp_profiles = extract_pmp_skills(pmp_df)
-        
+
         # Analyze charity requirements
         charity_projects = analyze_charity_requirements(charity_df)
-        
+
+        (qualified_pmps,
+         backup_pmps,
+         non_selected_pmps,
+         best_scores,
+         score_matrix) = categorize_pmp_candidates(pmp_profiles, charity_projects)
+
+        charity_lookup = {
+            charity['ID']: charity['Organization']
+            for charity in charity_projects
+        }
+
+        log_message(
+            f"  Qualified PMPs available: {len(qualified_pmps)}"
+        )
+        log_message(
+            f"  Backup candidates: {len(backup_pmps)}"
+        )
+        log_message(
+            f"  Non-selected candidates: {len(non_selected_pmps)}"
+        )
+
+        if not qualified_pmps and backup_pmps:
+            log_message(
+                "  Warning: No candidates met the qualified threshold. "
+                "Promoting top backup candidates to qualified list."
+            )
+            qualified_pmps = backup_pmps
+            backup_pmps = []
+
+        qualified_score_matrix = {
+            p['ID']: score_matrix[p['ID']]
+            for p in qualified_pmps
+        }
+
+        candidate_columns = [
+            'PMP_Name',
+            'Email',
+            'Company',
+            'Experience',
+            'Best_Match',
+            'Best_Score',
+            'LinkedIn_Quality',
+            'Profile_Completeness',
+            'Status'
+        ]
+
+        def _build_candidate_rows(candidates, status_label):
+            rows = []
+            for candidate in candidates:
+                info = best_scores.get(candidate['ID'], {})
+                best_charity_id = info.get('best_charity_id')
+                best_charity_name = charity_lookup.get(best_charity_id, '')
+                rows.append({
+                    'PMP_Name': candidate['Name'],
+                    'Email': candidate.get('Email', ''),
+                    'Company': candidate.get('Company', ''),
+                    'Experience': candidate.get('Experience', ''),
+                    'Best_Match': best_charity_name,
+                    'Best_Score': round(info.get('best_score', 0.0), 2),
+                    'LinkedIn_Quality': candidate.get('LinkedIn_Quality_Score', 0),
+                    'Profile_Completeness': candidate.get('Profile_Completeness_Score', 0),
+                    'Status': status_label
+                })
+            return rows
+
         # Create matching based on assignment type
         if use_flexible_assignment:
             final_matches, assigned_charities = create_flexible_matching(
-                pmp_profiles,
-                charity_projects
+                qualified_pmps,
+                charity_projects,
+                score_matrix=qualified_score_matrix,
+                enforce_unique_company=True
             )
             matching_summary = generate_flexible_matching_report(
                 final_matches,
@@ -295,8 +356,10 @@ def run_enhanced_matching(use_flexible_assignment=False):
             log_message("  Using flexible assignment (all PMPs assigned)")
         else:
             final_matches, assigned_charities = create_optimal_matching(
-                pmp_profiles,
-                charity_projects
+                qualified_pmps,
+                charity_projects,
+                score_matrix=qualified_score_matrix,
+                enforce_unique_company=True
             )
             matching_summary = generate_matching_report(
                 final_matches,
@@ -313,6 +376,58 @@ def run_enhanced_matching(use_flexible_assignment=False):
             sheet_name = 'Enhanced_Matching_Summary'
             log_message("  Using standard assignment (2 PMPs per charity)")
         
+        assigned_pmp_ids = {match['PMP_ID'] for match in final_matches}
+        unassigned_qualified = [
+            p for p in qualified_pmps if p['ID'] not in assigned_pmp_ids
+        ]
+
+        backup_rows = []
+        if unassigned_qualified:
+            backup_rows.extend(
+                _build_candidate_rows(
+                    unassigned_qualified,
+                    'Qualified - awaiting assignment'
+                )
+            )
+        if backup_pmps:
+            backup_rows.extend(
+                _build_candidate_rows(
+                    backup_pmps,
+                    'Backup Candidate'
+                )
+            )
+
+        non_selected_rows = _build_candidate_rows(
+            non_selected_pmps,
+            'Non-selected'
+        )
+
+        backup_df = (
+            pd.DataFrame(backup_rows, columns=candidate_columns)
+            if backup_rows else pd.DataFrame(columns=candidate_columns)
+        )
+        non_selected_df = (
+            pd.DataFrame(non_selected_rows, columns=candidate_columns)
+            if non_selected_rows else pd.DataFrame(columns=candidate_columns)
+        )
+
+        log_message(
+            f"  Assigned qualified PMPs: {len(assigned_pmp_ids)}/"
+            f"{len(qualified_pmps)}"
+        )
+        if unassigned_qualified:
+            log_message(
+                f"  {len(unassigned_qualified)} qualified PMP(s) remain "
+                "unassigned and have been moved to the backup list."
+            )
+        log_message(
+            f"  Backup candidates (incl. promoted qualified): "
+            f"{len(backup_rows)}"
+        )
+        log_message(
+            f"  Non-selected candidates: {len(non_selected_rows)}"
+        )
+
         # Save enhanced matching results
         with pd.ExcelWriter(output_file, engine='xlsxwriter') as writer:
             
@@ -374,6 +489,18 @@ def run_enhanced_matching(use_flexible_assignment=False):
             charity_summary.to_excel(
                 writer,
                 sheet_name='Charity_Projects',
+                index=False
+            )
+
+            backup_df.to_excel(
+                writer,
+                sheet_name='Backup_Candidates',
+                index=False
+            )
+
+            non_selected_df.to_excel(
+                writer,
+                sheet_name='Non_Selected_Candidates',
                 index=False
             )
             

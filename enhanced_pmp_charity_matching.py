@@ -1,3 +1,4 @@
+# flake8: noqa
 """
 Enhanced PMP-Charity Matching Script with LinkedIn Integration
 =============================================================
@@ -13,6 +14,68 @@ Based on the original pmp_charity_matching.py with LinkedIn enhancements.
 
 import pandas as pd
 import numpy as np
+
+
+QUALIFIED_SCORE_THRESHOLD = 65.0
+BACKUP_SCORE_THRESHOLD = 50.0
+
+
+def _normalize_company_name(company_raw, fallback_id):
+    """Return a normalized company key for assignment checks."""
+    company = str(company_raw or '').strip()
+    if not company:
+        return f"__no_company__{fallback_id}"
+    return company.lower()
+
+
+def build_match_score_matrix(pmp_profiles, charity_projects):
+    """Precompute match scores for every PMP-charity combination."""
+    score_matrix = {}
+    for pmp in pmp_profiles:
+        pmp_scores = {}
+        for charity in charity_projects:
+            score = calculate_match_score(pmp, charity)
+            pmp_scores[charity['ID']] = score
+        score_matrix[pmp['ID']] = pmp_scores
+    return score_matrix
+
+
+def categorize_pmp_candidates(pmp_profiles, charity_projects,
+                              qualified_threshold=QUALIFIED_SCORE_THRESHOLD,
+                              backup_threshold=BACKUP_SCORE_THRESHOLD):
+    """
+    Split PMP profiles into qualified, backup and non-selected lists
+    based on their best available match score.
+    """
+
+    score_matrix = build_match_score_matrix(pmp_profiles, charity_projects)
+    qualified = []
+    backup = []
+    non_selected = []
+    best_scores = {}
+
+    for pmp in pmp_profiles:
+        pmp_scores = score_matrix.get(pmp['ID'], {})
+        if pmp_scores:
+            best_charity_id, best_score = max(
+                pmp_scores.items(), key=lambda item: item[1]
+            )
+        else:
+            best_charity_id, best_score = (None, 0.0)
+
+        best_scores[pmp['ID']] = {
+            'best_score': best_score,
+            'best_charity_id': best_charity_id
+        }
+
+        if best_score >= qualified_threshold:
+            qualified.append(pmp)
+        elif best_score >= backup_threshold:
+            backup.append(pmp)
+        else:
+            non_selected.append(pmp)
+
+    return qualified, backup, non_selected, best_scores, score_matrix
 
 
 def load_and_process_data():
@@ -144,6 +207,7 @@ def extract_pmp_skills(pmp_df):
             'LinkedIn_URL': row.get('LinkedIn Profile URL', ''),
             'Company': row.get('Company', ''),
             'Job_Title': row.get('Current / Latest Job Title', ''),
+            'Email': row.get('Email address', ''),
             'Skills': {},
             'LinkedIn_Quality_Score': 0,
             'Profile_Completeness_Score': 0
@@ -344,16 +408,20 @@ def calculate_match_score(pmp_profile, charity_project):
     return normalized_score
 
 
-def create_optimal_matching(pmp_profiles, charity_projects):
-    """Create optimal matching using greedy algorithm with constraints"""
-    
-    # Calculate all possible match scores
-    match_matrix = []
+def create_optimal_matching(pmp_profiles, charity_projects,
+                            score_matrix=None,
+                            enforce_unique_company=True,
+                            max_per_project=2):
+    """Create baseline matching ensuring company diversity."""
+
+    if score_matrix is None:
+        score_matrix = build_match_score_matrix(pmp_profiles, charity_projects)
+
+    all_matches = []
     for pmp in pmp_profiles:
-        pmp_matches = []
         for charity in charity_projects:
-            score = calculate_match_score(pmp, charity)
-            pmp_matches.append({
+            score = score_matrix[pmp['ID']][charity['ID']]
+            all_matches.append({
                 'PMP_ID': pmp['ID'],
                 'PMP_Name': pmp['Name'],
                 'Charity_ID': charity['ID'],
@@ -363,40 +431,69 @@ def create_optimal_matching(pmp_profiles, charity_projects):
                 'PMP_Profile': pmp,
                 'Charity_Project': charity
             })
-        match_matrix.append(pmp_matches)
-    
-    # Flatten and sort by score
-    all_matches = []
-    for pmp_matches in match_matrix:
-        all_matches.extend(pmp_matches)
-    
+
     all_matches.sort(key=lambda x: x['Score'], reverse=True)
-    
-    # Greedy matching - assign 2 PMPs per charity
+
     assigned_pmps = set()
-    assigned_charities = {}  # charity_id: [pmp1, pmp2]
-    final_matches = []
-    
+    charity_state = {
+        charity['ID']: {
+            'assignments': [],
+            'companies': set()
+        }
+        for charity in charity_projects
+    }
+
+    def _assign(match_item):
+        charity_id = match_item['Charity_ID']
+        company_key = _normalize_company_name(
+            match_item['PMP_Profile'].get('Company'),
+            match_item['PMP_ID']
+        )
+        charity_state[charity_id]['assignments'].append(match_item)
+        charity_state[charity_id]['companies'].add(company_key)
+        assigned_pmps.add(match_item['PMP_ID'])
+
+    # Pass 1: enforce unique company within each project
     for match in all_matches:
         charity_id = match['Charity_ID']
         pmp_id = match['PMP_ID']
-        
-        # Check if we can assign this PMP to this charity
-        if (pmp_id not in assigned_pmps and 
-            charity_id not in assigned_charities):
-            # First PMP for this charity
-            assigned_charities[charity_id] = [match]
-            assigned_pmps.add(pmp_id)
-            final_matches.append(match)
-            
-        elif (pmp_id not in assigned_pmps and 
-              charity_id in assigned_charities and 
-              len(assigned_charities[charity_id]) < 2):
-            # Second PMP for this charity
-            assigned_charities[charity_id].append(match)
-            assigned_pmps.add(pmp_id)
-            final_matches.append(match)
-    
+        state = charity_state[charity_id]
+
+        if pmp_id in assigned_pmps:
+            continue
+        if len(state['assignments']) >= max_per_project:
+            continue
+
+        company_key = _normalize_company_name(
+            match['PMP_Profile'].get('Company'),
+            pmp_id
+        )
+
+        if enforce_unique_company and company_key in state['companies']:
+            continue
+
+        _assign(match)
+
+    # Pass 2: fill remaining slots even if company duplicates are required
+    for match in all_matches:
+        charity_id = match['Charity_ID']
+        pmp_id = match['PMP_ID']
+        state = charity_state[charity_id]
+
+        if pmp_id in assigned_pmps:
+            continue
+        if len(state['assignments']) >= max_per_project:
+            continue
+
+        _assign(match)
+
+    final_matches = []
+    assigned_charities = {}
+    for charity_id, state in charity_state.items():
+        if state['assignments']:
+            assigned_charities[charity_id] = state['assignments']
+            final_matches.extend(state['assignments'])
+
     return final_matches, assigned_charities
 
 

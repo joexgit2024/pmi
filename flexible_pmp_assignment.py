@@ -19,9 +19,8 @@ from enhanced_pmp_charity_matching import (
     load_and_process_data,
     extract_pmp_skills,
     analyze_charity_requirements,
-    calculate_match_score,
-    generate_matching_report,
-    create_detailed_analysis
+    build_match_score_matrix,
+    _normalize_company_name
 )
 
 
@@ -29,7 +28,7 @@ def calculate_project_capacity_score(charity_project):
     """
     Calculate how many PMPs a project can effectively utilize based on:
     - Complexity (High = more PMPs)
-    - Priority (High = more PMPs)  
+    - Priority (High = more PMPs)
     - Project scope
     """
     base_capacity = 2  # Minimum PMPs per project
@@ -49,24 +48,36 @@ def calculate_project_capacity_score(charity_project):
         priority_bonus = 0
     
     # Skill diversity bonus (more skills needed = more PMPs)
-    skill_count = sum(1 for weight in charity_project['Required_Skills'].values() if weight > 2)
-    skill_bonus = min(skill_count // 3, 1)  # Extra PMP for every 3 significant skills
-    
-    total_capacity = base_capacity + complexity_bonus + priority_bonus + skill_bonus
+    significant_skills = charity_project['Required_Skills'].values()
+    skill_count = sum(1 for weight in significant_skills if weight > 2)
+    # Extra PMP for every 3 significant skills
+    skill_bonus = min(skill_count // 3, 1)
+
+    total_capacity = (
+        base_capacity + complexity_bonus + priority_bonus + skill_bonus
+    )
     return min(total_capacity, 4)  # Cap at 4 PMPs max per project
 
 
-def create_flexible_matching(pmp_profiles, charity_projects):
+def create_flexible_matching(
+    pmp_profiles,
+    charity_projects,
+    score_matrix=None,
+    enforce_unique_company=True
+):
     """
     Create flexible matching that assigns ALL PMPs to projects.
     Some projects may get 3+ PMPs based on complexity and priority.
     """
-    
+
     # Calculate all possible match scores
+    if score_matrix is None:
+        score_matrix = build_match_score_matrix(pmp_profiles, charity_projects)
+
     all_matches = []
     for pmp in pmp_profiles:
         for charity in charity_projects:
-            score = calculate_match_score(pmp, charity)
+            score = score_matrix[pmp['ID']][charity['ID']]
             all_matches.append({
                 'PMP_ID': pmp['ID'],
                 'PMP_Name': pmp['Name'],
@@ -75,7 +86,11 @@ def create_flexible_matching(pmp_profiles, charity_projects):
                 'Initiative': charity['Initiative'],
                 'Score': score,
                 'PMP_Profile': pmp,
-                'Charity_Project': charity
+                'Charity_Project': charity,
+                'Company_Key': _normalize_company_name(
+                    pmp.get('Company'),
+                    pmp['ID']
+                )
             })
     
     # Sort by score (highest first)
@@ -89,12 +104,20 @@ def create_flexible_matching(pmp_profiles, charity_projects):
             'max_capacity': max(capacity, 2),  # Ensure minimum 2 PMPs
             'min_capacity': 2,  # Minimum 2 PMPs for risk management
             'current_assignments': 0,
-            'assigned_pmps': []
+            'assigned_pmps': [],
+            'companies': set()
         }
     
     # Assign PMPs using flexible algorithm with minimum requirements
     assigned_pmps = set()
     final_matches = []
+
+    def _assign(match, state, assigned_set, output_list):
+        state['current_assignments'] += 1
+        state['assigned_pmps'].append(match)
+        state['companies'].add(match['Company_Key'])
+        assigned_set.add(match['PMP_ID'])
+        output_list.append(match)
     
     print("=== PROJECT CAPACITY ANALYSIS ===")
     for charity in charity_projects:
@@ -105,8 +128,9 @@ def create_flexible_matching(pmp_profiles, charity_projects):
               f"(min {min_capacity} for risk management)")
         print(f"  - Priority: {charity['Priority_Level']}")
         print(f"  - Complexity: {charity['Complexity']}")
-        skill_count = sum(1 for w in charity['Required_Skills'].values() 
-                         if w > 2)
+        skill_count = sum(
+            1 for weight in charity['Required_Skills'].values() if weight > 2
+        )
         print(f"  - Skill requirements: {skill_count} significant skills")
         print()
     
@@ -116,57 +140,114 @@ def create_flexible_matching(pmp_profiles, charity_projects):
     
     for project in projects_needing_min:
         charity_id = project['ID']
-        project_matches = [m for m in all_matches 
-                          if m['Charity_ID'] == charity_id 
-                          and m['PMP_ID'] not in assigned_pmps]
-        
-        # Assign top 2 matches for this project
-        for i in range(min(2, len(project_matches))):
-            match = project_matches[i]
-            pmp_id = match['PMP_ID']
-            
-            if pmp_id not in assigned_pmps:
-                assigned_pmps.add(pmp_id)
-                project_capacities[charity_id]['current_assignments'] += 1
-                project_capacities[charity_id]['assigned_pmps'].append(match)
-                final_matches.append(match)
+        state = project_capacities[charity_id]
+        min_capacity = state['min_capacity']
+        project_matches = [
+            match for match in all_matches
+            if match['Charity_ID'] == charity_id
+            and match['PMP_ID'] not in assigned_pmps
+        ]
+
+        # First, try to satisfy minimum capacity with unique companies
+        for match in project_matches:
+            if state['current_assignments'] >= min_capacity:
+                break
+
+            if match['PMP_ID'] in assigned_pmps:
+                continue
+
+            if (
+                enforce_unique_company
+                and match['Company_Key'] in state['companies']
+            ):
+                continue
+
+            pmp_name = match['PMP_Name']
+            org_name = project['Organization']
+            _assign(match, state, assigned_pmps, final_matches)
+            assignment_msg = (
+                f"  Assigned {pmp_name} to {org_name}"
+                " (min requirement)"
+            )
+            print(assignment_msg)
+
+        # If still short, allow duplicates to reach minimum
+        if state['current_assignments'] < min_capacity:
+            for match in project_matches:
+                if state['current_assignments'] >= min_capacity:
+                    break
+                if match['PMP_ID'] in assigned_pmps:
+                    continue
+
                 pmp_name = match['PMP_Name']
                 org_name = project['Organization']
-                print(f"  Assigned {pmp_name} to {org_name} (min requirement)")
+                _assign(match, state, assigned_pmps, final_matches)
+                assignment_msg = (
+                    f"  Assigned {pmp_name} to {org_name}"
+                    " (min requirement - duplicate company)"
+                )
+                print(assignment_msg)
     
     # Phase 2: Assign remaining PMPs to projects with available capacity
     print("\n=== PHASE 2: Assigning remaining PMPs based on capacity ===")
-    remaining_matches = [m for m in all_matches 
-                        if m['PMP_ID'] not in assigned_pmps]
-    
+    remaining_matches = [
+        match for match in all_matches if match['PMP_ID'] not in assigned_pmps
+    ]
+
+    deferred_matches = []
+
     for match in remaining_matches:
         charity_id = match['Charity_ID']
-        pmp_id = match['PMP_ID']
-        
-        current_count = project_capacities[charity_id]['current_assignments']
-        max_capacity = project_capacities[charity_id]['max_capacity']
-        
-        if pmp_id not in assigned_pmps and current_count < max_capacity:
-            # Assign this PMP
-            assigned_pmps.add(pmp_id)
-            project_capacities[charity_id]['current_assignments'] += 1
-            project_capacities[charity_id]['assigned_pmps'].append(match)
-            final_matches.append(match)
-            
-            pmp_name = match['PMP_Name']
-            org_name = next(c['Organization'] for c in charity_projects 
-                           if c['ID'] == charity_id)
-            print(f"  Assigned {pmp_name} to {org_name} (additional capacity)")
-    
-    
-    
+        state = project_capacities[charity_id]
+
+        if match['PMP_ID'] in assigned_pmps:
+            continue
+        if state['current_assignments'] >= state['max_capacity']:
+            continue
+
+        if (
+            enforce_unique_company
+            and match['Company_Key'] in state['companies']
+        ):
+            deferred_matches.append(match)
+            continue
+
+        _assign(match, state, assigned_pmps, final_matches)
+        org_name = match['Organization']
+        assignment_msg = (
+            f"  Assigned {match['PMP_Name']} to {org_name}"
+            " (additional capacity)"
+        )
+        print(assignment_msg)
+
+    # Process deferred matches allowing duplicates if capacity remains
+    for match in deferred_matches:
+        charity_id = match['Charity_ID']
+        state = project_capacities[charity_id]
+
+        if match['PMP_ID'] in assigned_pmps:
+            continue
+        if state['current_assignments'] >= state['max_capacity']:
+            continue
+
+        _assign(match, state, assigned_pmps, final_matches)
+        org_name = match['Organization']
+        assignment_msg = (
+            f"  Assigned {match['PMP_Name']} to {org_name}"
+            " (additional capacity - duplicate company)"
+        )
+        print(assignment_msg)
     # Check if all PMPs are assigned
     unassigned_pmps = [p for p in pmp_profiles if p['ID'] not in assigned_pmps]
     
     if unassigned_pmps:
-        print(f"=== SECOND PASS: Assigning {len(unassigned_pmps)} remaining PMPs ===")
-        
-        # Second pass: Assign remaining PMPs to projects with lowest current assignment ratio
+        print(
+            "=== SECOND PASS: Assigning "
+            f"{len(unassigned_pmps)} remaining PMPs ==="
+        )
+
+        # Second pass: Assign remaining PMPs to projects with
+        # lowest current assignment ratio
         for pmp in unassigned_pmps:
             # Find best available match for this PMP
             best_match = None
@@ -174,16 +255,21 @@ def create_flexible_matching(pmp_profiles, charity_projects):
             
             for charity in charity_projects:
                 # Calculate current assignment ratio
-                current = project_capacities[charity['ID']]['current_assignments']
+                current = project_capacities[charity['ID']][
+                    'current_assignments'
+                ]
                 max_cap = project_capacities[charity['ID']]['max_capacity']
                 
-                # Allow exceeding capacity if needed, but prefer projects with space
-                preference_score = (max_cap - current) * 10  # Prefer projects with space
+                # Allow exceeding capacity if needed, but prefer
+                # projects with available space
+                preference_score = (max_cap - current) * 10
                 
                 # Find the match score for this PMP-charity combination
                 for match in all_matches:
-                    if (match['PMP_ID'] == pmp['ID'] and 
-                        match['Charity_ID'] == charity['ID']):
+                    if (
+                        match['PMP_ID'] == pmp['ID']
+                        and match['Charity_ID'] == charity['ID']
+                    ):
                         
                         adjusted_score = match['Score'] + preference_score
                         
@@ -194,12 +280,14 @@ def create_flexible_matching(pmp_profiles, charity_projects):
             
             if best_match:
                 charity_id = best_match['Charity_ID']
-                project_capacities[charity_id]['current_assignments'] += 1
-                project_capacities[charity_id]['assigned_pmps'].append(best_match)
-                final_matches.append(best_match)
-                assigned_pmps.add(pmp['ID'])
-                
-                print(f"  Assigned {best_match['PMP_Name']} to {best_match['Organization']} (Score: {best_match['Score']:.2f})")
+                state = project_capacities[charity_id]
+                _assign(best_match, state, assigned_pmps, final_matches)
+                pmp_name = best_match['PMP_Name']
+                org_name = best_match['Organization']
+                print(
+                    f"  Assigned {pmp_name} to {org_name}"
+                    f" (Score: {best_match['Score']:.2f})"
+                )
     
     # Create final assignment structure
     assigned_charities = {}
@@ -225,8 +313,14 @@ def generate_flexible_matching_report(final_matches, assigned_charities):
             pmp_info = match['PMP_Profile']
             
             # Get top 3 skills for this PMP
-            top_skills = sorted(pmp_info['Skills'].items(), key=lambda x: x[1], reverse=True)[:3]
-            top_skills_str = ", ".join([f"{skill}: {rating}" for skill, rating in top_skills])
+            top_skills = sorted(
+                pmp_info['Skills'].items(),
+                key=lambda item: item[1],
+                reverse=True
+            )[:3]
+            top_skills_str = ", ".join(
+                [f"{skill}: {rating}" for skill, rating in top_skills]
+            )
             
             match_data.append({
                 'Charity_Organization': charity_info['Organization'],
@@ -267,18 +361,28 @@ def main():
     
     # Create flexible matching
     print("Creating flexible matching...")
-    final_matches, assigned_charities = create_flexible_matching(pmp_profiles, charity_projects)
+    final_matches, assigned_charities = create_flexible_matching(
+        pmp_profiles,
+        charity_projects
+    )
     
     # Generate reports
     print("\nGenerating reports...")
-    matching_summary = generate_flexible_matching_report(final_matches, assigned_charities)
+    matching_summary = generate_flexible_matching_report(
+        final_matches,
+        assigned_charities
+    )
     
     # Save results
     output_file = 'PMI_PMP_Charity_Flexible_Matching_Results.xlsx'
     with pd.ExcelWriter(output_file, engine='xlsxwriter') as writer:
         
         # Main matching results
-        matching_summary.to_excel(writer, sheet_name='Flexible_Matching', index=False)
+        matching_summary.to_excel(
+            writer,
+            sheet_name='Flexible_Matching',
+            index=False
+        )
         
         # Team composition summary
         team_summary = matching_summary.groupby('Charity_Organization').agg({
@@ -289,7 +393,15 @@ def main():
             'Match_Score': ['mean', 'min', 'max']
         }).round(2)
         
-        team_summary.columns = ['Team_Size', 'Priority', 'Complexity', 'Team_Members', 'Avg_Score', 'Min_Score', 'Max_Score']
+        team_summary.columns = [
+            'Team_Size',
+            'Priority',
+            'Complexity',
+            'Team_Members',
+            'Avg_Score',
+            'Min_Score',
+            'Max_Score'
+        ]
         team_summary.to_excel(writer, sheet_name='Team_Summary', index=True)
         
         # Project capacity analysis
@@ -303,14 +415,22 @@ def main():
                 'Organization': charity_info['Organization'],
                 'Max_Recommended_Capacity': max_capacity,
                 'Actual_Assignments': actual_assignments,
-                'Capacity_Utilization': f"{(actual_assignments/max_capacity)*100:.0f}%",
+                'Capacity_Utilization': (
+                    f"{(actual_assignments / max_capacity) * 100:.0f}%"
+                ),
                 'Priority': charity_info['Priority_Level'],
                 'Complexity': charity_info['Complexity'],
-                'Over_Capacity': 'Yes' if actual_assignments > max_capacity else 'No'
+                'Over_Capacity': (
+                    'Yes' if actual_assignments > max_capacity else 'No'
+                )
             })
         
         capacity_df = pd.DataFrame(capacity_analysis)
-        capacity_df.to_excel(writer, sheet_name='Capacity_Analysis', index=False)
+        capacity_df.to_excel(
+            writer,
+            sheet_name='Capacity_Analysis',
+            index=False
+        )
         
         # Format worksheets
         workbook = writer.book
@@ -328,26 +448,32 @@ def main():
             worksheet.autofit()
     
     # Print results summary
-    print(f"\n=== FLEXIBLE MATCHING RESULTS ===")
+    print("\n=== FLEXIBLE MATCHING RESULTS ===")
     print(f"Total PMPs assigned: {len(final_matches)}")
     print(f"Total projects with assignments: {len(assigned_charities)}")
     print(f"Results saved to: {output_file}")
     
-    print(f"\n=== TEAM ASSIGNMENTS ===")
+    print("\n=== TEAM ASSIGNMENTS ===")
     for charity_id, matches in assigned_charities.items():
         charity_name = matches[0]['Charity_Project']['Organization']
         team_size = len(matches)
         priority = matches[0]['Charity_Project']['Priority_Level']
         complexity = matches[0]['Charity_Project']['Complexity']
         
-        print(f"\n{charity_name} ({priority} Priority, {complexity} Complexity):")
+        print(
+            "\n"
+            f"{charity_name} ({priority} Priority, {complexity} Complexity):"
+        )
         print(f"  Team Size: {team_size} PMPs")
         for i, match in enumerate(matches, 1):
-            print(f"    {i}. {match['PMP_Name']} (Score: {match['Score']:.2f})")
+            score_display = f"{match['Score']:.2f}"
+            print(
+                f"    {i}. {match['PMP_Name']} (Score: {score_display})"
+            )
     
     # Check if all PMPs are assigned
     assigned_pmp_count = len(set(match['PMP_ID'] for match in final_matches))
-    print(f"\n=== VERIFICATION ===")
+    print("\n=== VERIFICATION ===")
     print(f"PMPs assigned: {assigned_pmp_count}/{len(pmp_profiles)}")
     if assigned_pmp_count == len(pmp_profiles):
         print("✅ All PMPs successfully assigned!")
