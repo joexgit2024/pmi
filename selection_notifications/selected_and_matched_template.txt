@@ -1,3 +1,13 @@
+From: PMDoS Professionals
+
+To
+ Person Person Person
+Cc
+ Mohammed Alsadeq John Yap 
+Bcc
+ Person
+Subject
+PMDoS 2025 - Selection Outcome
 Dear [PMP Professional Name],
 
 Thank you for your registration and interest in PMI Sydney Chapter's Project Management Day of Service (PMDoS) 2025. We are thrilled to inform you about the outcome of our selection process.
@@ -6,13 +16,15 @@ Thank you for your registration and interest in PMI Sydney Chapter's Project Man
 
 We are delighted to confirm that you have been selected for PMDoS 2025 and successfully matched with a charity project. Your professional skills and experience align perfectly with the needs of our community partners.
 
+[For Professional Lead - delete if not applicable] You have been nominated as the Team Lead for your assigned project. In this role, you will be responsible for guiding your team’s collaboration on the day, ensuring discussions remain focused on the charity’s objectives, and capturing key outputs, decisions, and recommendations in Confluence. Your leadership will be central to delivering a structured, high‑quality outcome for both your team and the charity partner.
+
 YOUR PROJECT ASSIGNMENT:
-- Charity Organization: [To be filled based on matching results]
-- Project Details: [To be filled based on matching results]
-- Team Partners: [To be filled based on matching results]
+- Charity Organization: [Charity Name - To be filled based on matching results]
+- Project Details: [Initiative Name & Description - To be filled based on matching results]
+- Team Partners: [Name & Email Address - To be filled based on matching results]
 
 MANDATORY INDUCTION SESSION:
-📅 Date: October 15, 2025
+📅 Date: October 16, 2025
 🕘 Time: 7:00 PM - 8:30 PM (AEDT)
 🔗 Platform: Google Meet (link will be sent separately)
 📋 Purpose: Project briefing, team introductions, and event logistics
@@ -32,10 +44,12 @@ WHAT TO EXPECT:
 ✅ Potential for ongoing volunteer opportunities with your matched charity
 
 NEXT STEPS:
-1. ✅ Confirm your attendance by replying to this email by October 1, 2025
-2. 📅 Mark October 15, 2025 induction session in your calendar
-3. 📱 Watch for the Google Meet link (sent 24 hours before induction)
-4. 📋 Review any pre-event materials we may send
+ Confirm your attendance by replying to this email by Friday, October 10, 2025.
+[For Professional Lead - delete if not applicable] - Sign up for a free account on https://www.atlassian.com/software/confluence/free
+[For Professional Lead - delete if not applicable] - Access and review your team’s designated Confluence space. As access is limited, only the Team Lead will be granted permissions to this space and is responsible for managing its content.
+Mark October 16, 2025 induction session in your calendar.
+Watch for the Google Meet link (sent 24 hours before induction).
+Review any pre-event materials we may send.
 
 IMPORTANT COMMITMENT:
 By accepting this selection, you commit to:
@@ -44,9 +58,7 @@ By accepting this selection, you commit to:
 - Working collaboratively with your assigned team and charity partner
 - Delivering professional project management value to the community
 
-We are excited about the positive impact you will make in our community through your professional expertise and generous volunteer spirit.
-
-If you have any questions or need to discuss any aspects of your participation, please don't hesitate to reach out.
+We are excited about the positive impact you will make in our community through your professional expertise and generous volunteer spirit.If you have any questions or need to discuss any aspects of your participation, please don't hesitate to reach out.
 
 Welcome to PMDoS 2025!
 
@@ -54,5 +66,6 @@ Best regards,
 
 PMI Sydney Chapter PMDoS 2025 Organizing Committee
 
-To: [Email Address]
-From: pmdos_professionals@pmisydney.org
+
+
+

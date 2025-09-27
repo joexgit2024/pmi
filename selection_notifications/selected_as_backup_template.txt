@@ -1,3 +1,13 @@
+From: PMDoS Professionals
+
+To
+ Person Person Person
+Cc
+ Mohammed Alsadeq John Yap 
+Bcc
+ Person
+Subject
+PMDoS 2025 - Selection Outcome
 Dear [PMP Professional Name],
 
 Thank you for your registration and interest in PMI Sydney Chapter's Project Management Day of Service (PMDoS) 2025. We want to update you on the outcome of our selection process.
@@ -9,11 +19,10 @@ We are pleased to inform you that you have been selected as a backup participant
 WHAT THIS MEANS:
 ✅ You are officially part of our PMDoS 2025 reserve team
 ✅ You may be called upon if selected participants cannot attend
-✅ You have priority consideration for future PMI Sydney Chapter events
 ✅ You are invited to join our induction session for potential activation
 
 MANDATORY INDUCTION SESSION (For All Backup Participants):
-📅 Date: October 15, 2025
+📅 Date: October 16, 2025
 🕘 Time: 7:00 PM - 8:30 PM (AEDT)
 🔗 Platform: Google Meet (link will be sent separately)
 📋 Purpose: Standby briefing, networking, and readiness preparation
@@ -46,7 +55,7 @@ NEXT STEPS:
 
 COMMITMENT AS BACKUP:
 By accepting backup status, you commit to:
-- Attending the induction session on October 15, 2025
+- Attending the induction session on October 16, 2025
 - Being available for activation through October 25, 2025
 - Confirming participation within 48 hours if activated
 - Full participation if called upon for the main event
@@ -63,5 +72,3 @@ Best regards,
 
 PMI Sydney Chapter PMDoS 2025 Organizing Committee
 
-To: [Email Address]
-From: pmdos_professionals@pmisydney.org
